@@ -31,63 +31,95 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ICalcListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="CalcParser.startrule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStartrule([NotNull] CalcParser.StartruleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CalcParser.startrule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStartrule([NotNull] CalcParser.StartruleContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>BinaryAddSimple</c>
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinaryAddSimple</c>
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>BinaryModulusInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>BinaryModulusInt</c>
-	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="CalcParser.signedatom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSignedatom([NotNull] CalcParser.SignedatomContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="CalcParser.signedatom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSignedatom([NotNull] CalcParser.SignedatomContext context);
 }

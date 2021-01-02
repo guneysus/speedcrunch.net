@@ -1,38 +1,29 @@
 grammar Calc;
 
-startrule: 
-    INT PLUS INT # BinaryAddInt
-    | INT TIMES INT # BinaryMultiplyInt
-    | INT MINUS INT # BinarySubstractInt
-    | INT DIVISION INT # BinaryDivisionInt
-    | INT MODULUS INT # BinaryModulusInt
-    ;
+startrule: binaryexpression (EOF)?;
 
-PLUS: 
-    '+'
-    ;
+binaryexpression:
+	INT PLUS INT		# BinaryAddInt
+    | INT INT           # BinaryAddSimple
+	| INT TIMES INT		# BinaryMultiplyInt
+	| INT MINUS INT		# BinarySubstractInt
+	| INT DIVISION INT	# BinaryDivisionInt
+	| INT MODULUS INT	# BinaryModulusInt;
 
-TIMES
-    : 
-    '*'
-    ;
+signedatom: PLUS signedatom | MINUS signedatom;
 
-MINUS
-    : 
-    '-'
-    ;
+PLUS: '+';
+MINUS: '-';
+TIMES: '*';
+DIVISION: '/';
+MODULUS: '%';
 
-DIVISION
-    : 
-    '/'
-    ;
+INT: NUMBER;
 
-MODULUS
-    :
-    '%'
-    ;
+fragment NUMBER: (SIGN)? DIGIT (DIGIT+)?;
 
-INT
-    : 
-    [0-9]+
-    ;
+fragment DIGIT: [0-9];
+
+fragment SIGN: ('+' | '-');
+
+WS: [ \r\n\t]+ -> skip;

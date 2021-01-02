@@ -36,18 +36,18 @@ public partial class CalcParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, MODULUS=5, INT=6;
+		PLUS=1, MINUS=2, TIMES=3, DIVISION=4, MODULUS=5, INT=6, WS=7;
 	public const int
-		RULE_startrule = 0;
+		RULE_startrule = 0, RULE_binaryexpression = 1, RULE_signedatom = 2;
 	public static readonly string[] ruleNames = {
-		"startrule"
+		"startrule", "binaryexpression", "signedatom"
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'+'", "'*'", "'-'", "'/'", "'%'"
+		null, "'+'", "'-'", "'*'", "'/'", "'%'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "PLUS", "TIMES", "MINUS", "DIVISION", "MODULUS", "INT"
+		null, "PLUS", "MINUS", "TIMES", "DIVISION", "MODULUS", "INT", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -82,24 +82,82 @@ public partial class CalcParser : Parser {
 	}
 
 	public partial class StartruleContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public BinaryexpressionContext binaryexpression() {
+			return GetRuleContext<BinaryexpressionContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Eof() { return GetToken(CalcParser.Eof, 0); }
 		public StartruleContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_startrule; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterStartrule(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitStartrule(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitStartrule(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public StartruleContext startrule() {
+		StartruleContext _localctx = new StartruleContext(Context, State);
+		EnterRule(_localctx, 0, RULE_startrule);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 6; binaryexpression();
+			State = 8;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
+			case 1:
+				{
+				State = 7; Match(Eof);
+				}
+				break;
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class BinaryexpressionContext : ParserRuleContext {
+		public BinaryexpressionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_binaryexpression; } }
 	 
-		public StartruleContext() { }
-		public virtual void CopyFrom(StartruleContext context) {
+		public BinaryexpressionContext() { }
+		public virtual void CopyFrom(BinaryexpressionContext context) {
 			base.CopyFrom(context);
 		}
 	}
-	public partial class BinaryMultiplyIntContext : StartruleContext {
+	public partial class BinaryMultiplyIntContext : BinaryexpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
 			return GetToken(CalcParser.INT, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode TIMES() { return GetToken(CalcParser.TIMES, 0); }
-		public BinaryMultiplyIntContext(StartruleContext context) { CopyFrom(context); }
+		public BinaryMultiplyIntContext(BinaryexpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ICalcListener typedListener = listener as ICalcListener;
@@ -117,13 +175,13 @@ public partial class CalcParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class BinaryAddIntContext : StartruleContext {
+	public partial class BinaryAddIntContext : BinaryexpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
 			return GetToken(CalcParser.INT, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS() { return GetToken(CalcParser.PLUS, 0); }
-		public BinaryAddIntContext(StartruleContext context) { CopyFrom(context); }
+		public BinaryAddIntContext(BinaryexpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ICalcListener typedListener = listener as ICalcListener;
@@ -141,13 +199,36 @@ public partial class CalcParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class BinaryModulusIntContext : StartruleContext {
+	public partial class BinaryAddSimpleContext : BinaryexpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
+			return GetToken(CalcParser.INT, i);
+		}
+		public BinaryAddSimpleContext(BinaryexpressionContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterBinaryAddSimple(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitBinaryAddSimple(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryAddSimple(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryModulusIntContext : BinaryexpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
 			return GetToken(CalcParser.INT, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MODULUS() { return GetToken(CalcParser.MODULUS, 0); }
-		public BinaryModulusIntContext(StartruleContext context) { CopyFrom(context); }
+		public BinaryModulusIntContext(BinaryexpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ICalcListener typedListener = listener as ICalcListener;
@@ -165,13 +246,13 @@ public partial class CalcParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class BinarySubstractIntContext : StartruleContext {
+	public partial class BinarySubstractIntContext : BinaryexpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
 			return GetToken(CalcParser.INT, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(CalcParser.MINUS, 0); }
-		public BinarySubstractIntContext(StartruleContext context) { CopyFrom(context); }
+		public BinarySubstractIntContext(BinaryexpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ICalcListener typedListener = listener as ICalcListener;
@@ -189,13 +270,13 @@ public partial class CalcParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
-	public partial class BinaryDivisionIntContext : StartruleContext {
+	public partial class BinaryDivisionIntContext : BinaryexpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
 			return GetToken(CalcParser.INT, i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DIVISION() { return GetToken(CalcParser.DIVISION, 0); }
-		public BinaryDivisionIntContext(StartruleContext context) { CopyFrom(context); }
+		public BinaryDivisionIntContext(BinaryexpressionContext context) { CopyFrom(context); }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			ICalcListener typedListener = listener as ICalcListener;
@@ -215,56 +296,64 @@ public partial class CalcParser : Parser {
 	}
 
 	[RuleVersion(0)]
-	public StartruleContext startrule() {
-		StartruleContext _localctx = new StartruleContext(Context, State);
-		EnterRule(_localctx, 0, RULE_startrule);
+	public BinaryexpressionContext binaryexpression() {
+		BinaryexpressionContext _localctx = new BinaryexpressionContext(Context, State);
+		EnterRule(_localctx, 2, RULE_binaryexpression);
 		try {
-			State = 17;
+			State = 27;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 			case 1:
 				_localctx = new BinaryAddIntContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 2; Match(INT);
-				State = 3; Match(PLUS);
-				State = 4; Match(INT);
+				State = 10; Match(INT);
+				State = 11; Match(PLUS);
+				State = 12; Match(INT);
 				}
 				break;
 			case 2:
-				_localctx = new BinaryMultiplyIntContext(_localctx);
+				_localctx = new BinaryAddSimpleContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 5; Match(INT);
-				State = 6; Match(TIMES);
-				State = 7; Match(INT);
+				State = 13; Match(INT);
+				State = 14; Match(INT);
 				}
 				break;
 			case 3:
-				_localctx = new BinarySubstractIntContext(_localctx);
+				_localctx = new BinaryMultiplyIntContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 8; Match(INT);
-				State = 9; Match(MINUS);
-				State = 10; Match(INT);
+				State = 15; Match(INT);
+				State = 16; Match(TIMES);
+				State = 17; Match(INT);
 				}
 				break;
 			case 4:
-				_localctx = new BinaryDivisionIntContext(_localctx);
+				_localctx = new BinarySubstractIntContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 11; Match(INT);
-				State = 12; Match(DIVISION);
-				State = 13; Match(INT);
+				State = 18; Match(INT);
+				State = 19; Match(MINUS);
+				State = 20; Match(INT);
 				}
 				break;
 			case 5:
-				_localctx = new BinaryModulusIntContext(_localctx);
+				_localctx = new BinaryDivisionIntContext(_localctx);
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 14; Match(INT);
-				State = 15; Match(MODULUS);
-				State = 16; Match(INT);
+				State = 21; Match(INT);
+				State = 22; Match(DIVISION);
+				State = 23; Match(INT);
+				}
+				break;
+			case 6:
+				_localctx = new BinaryModulusIntContext(_localctx);
+				EnterOuterAlt(_localctx, 6);
+				{
+				State = 24; Match(INT);
+				State = 25; Match(MODULUS);
+				State = 26; Match(INT);
 				}
 				break;
 			}
@@ -280,26 +369,105 @@ public partial class CalcParser : Parser {
 		return _localctx;
 	}
 
+	public partial class SignedatomContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS() { return GetToken(CalcParser.PLUS, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public SignedatomContext signedatom() {
+			return GetRuleContext<SignedatomContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(CalcParser.MINUS, 0); }
+		public SignedatomContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_signedatom; } }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterSignedatom(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitSignedatom(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSignedatom(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public SignedatomContext signedatom() {
+		SignedatomContext _localctx = new SignedatomContext(Context, State);
+		EnterRule(_localctx, 4, RULE_signedatom);
+		try {
+			State = 33;
+			ErrorHandler.Sync(this);
+			switch (TokenStream.LA(1)) {
+			case PLUS:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 29; Match(PLUS);
+				State = 30; signedatom();
+				}
+				break;
+			case MINUS:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 31; Match(MINUS);
+				State = 32; signedatom();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			ErrorHandler.ReportError(this, re);
+			ErrorHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\b', '\x16', '\x4', '\x2', '\t', '\x2', '\x3', '\x2', 
-		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
-		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
-		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x5', '\x2', 
-		'\x14', '\n', '\x2', '\x3', '\x2', '\x2', '\x2', '\x3', '\x2', '\x2', 
-		'\x2', '\x2', '\x18', '\x2', '\x13', '\x3', '\x2', '\x2', '\x2', '\x4', 
-		'\x5', '\a', '\b', '\x2', '\x2', '\x5', '\x6', '\a', '\x3', '\x2', '\x2', 
-		'\x6', '\x14', '\a', '\b', '\x2', '\x2', '\a', '\b', '\a', '\b', '\x2', 
-		'\x2', '\b', '\t', '\a', '\x4', '\x2', '\x2', '\t', '\x14', '\a', '\b', 
-		'\x2', '\x2', '\n', '\v', '\a', '\b', '\x2', '\x2', '\v', '\f', '\a', 
-		'\x5', '\x2', '\x2', '\f', '\x14', '\a', '\b', '\x2', '\x2', '\r', '\xE', 
-		'\a', '\b', '\x2', '\x2', '\xE', '\xF', '\a', '\x6', '\x2', '\x2', '\xF', 
-		'\x14', '\a', '\b', '\x2', '\x2', '\x10', '\x11', '\a', '\b', '\x2', '\x2', 
-		'\x11', '\x12', '\a', '\a', '\x2', '\x2', '\x12', '\x14', '\a', '\b', 
-		'\x2', '\x2', '\x13', '\x4', '\x3', '\x2', '\x2', '\x2', '\x13', '\a', 
-		'\x3', '\x2', '\x2', '\x2', '\x13', '\n', '\x3', '\x2', '\x2', '\x2', 
-		'\x13', '\r', '\x3', '\x2', '\x2', '\x2', '\x13', '\x10', '\x3', '\x2', 
-		'\x2', '\x2', '\x14', '\x3', '\x3', '\x2', '\x2', '\x2', '\x3', '\x13',
+		'\x5964', '\x3', '\t', '&', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', '\t', 
+		'\x3', '\x4', '\x4', '\t', '\x4', '\x3', '\x2', '\x3', '\x2', '\x5', '\x2', 
+		'\v', '\n', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x5', '\x3', '\x1E', '\n', 
+		'\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x4', '\x3', '\x4', '\x5', 
+		'\x4', '$', '\n', '\x4', '\x3', '\x4', '\x2', '\x2', '\x5', '\x2', '\x4', 
+		'\x6', '\x2', '\x2', '\x2', ')', '\x2', '\b', '\x3', '\x2', '\x2', '\x2', 
+		'\x4', '\x1D', '\x3', '\x2', '\x2', '\x2', '\x6', '#', '\x3', '\x2', '\x2', 
+		'\x2', '\b', '\n', '\x5', '\x4', '\x3', '\x2', '\t', '\v', '\a', '\x2', 
+		'\x2', '\x3', '\n', '\t', '\x3', '\x2', '\x2', '\x2', '\n', '\v', '\x3', 
+		'\x2', '\x2', '\x2', '\v', '\x3', '\x3', '\x2', '\x2', '\x2', '\f', '\r', 
+		'\a', '\b', '\x2', '\x2', '\r', '\xE', '\a', '\x3', '\x2', '\x2', '\xE', 
+		'\x1E', '\a', '\b', '\x2', '\x2', '\xF', '\x10', '\a', '\b', '\x2', '\x2', 
+		'\x10', '\x1E', '\a', '\b', '\x2', '\x2', '\x11', '\x12', '\a', '\b', 
+		'\x2', '\x2', '\x12', '\x13', '\a', '\x5', '\x2', '\x2', '\x13', '\x1E', 
+		'\a', '\b', '\x2', '\x2', '\x14', '\x15', '\a', '\b', '\x2', '\x2', '\x15', 
+		'\x16', '\a', '\x4', '\x2', '\x2', '\x16', '\x1E', '\a', '\b', '\x2', 
+		'\x2', '\x17', '\x18', '\a', '\b', '\x2', '\x2', '\x18', '\x19', '\a', 
+		'\x6', '\x2', '\x2', '\x19', '\x1E', '\a', '\b', '\x2', '\x2', '\x1A', 
+		'\x1B', '\a', '\b', '\x2', '\x2', '\x1B', '\x1C', '\a', '\a', '\x2', '\x2', 
+		'\x1C', '\x1E', '\a', '\b', '\x2', '\x2', '\x1D', '\f', '\x3', '\x2', 
+		'\x2', '\x2', '\x1D', '\xF', '\x3', '\x2', '\x2', '\x2', '\x1D', '\x11', 
+		'\x3', '\x2', '\x2', '\x2', '\x1D', '\x14', '\x3', '\x2', '\x2', '\x2', 
+		'\x1D', '\x17', '\x3', '\x2', '\x2', '\x2', '\x1D', '\x1A', '\x3', '\x2', 
+		'\x2', '\x2', '\x1E', '\x5', '\x3', '\x2', '\x2', '\x2', '\x1F', ' ', 
+		'\a', '\x3', '\x2', '\x2', ' ', '$', '\x5', '\x6', '\x4', '\x2', '!', 
+		'\"', '\a', '\x4', '\x2', '\x2', '\"', '$', '\x5', '\x6', '\x4', '\x2', 
+		'#', '\x1F', '\x3', '\x2', '\x2', '\x2', '#', '!', '\x3', '\x2', '\x2', 
+		'\x2', '$', '\a', '\x3', '\x2', '\x2', '\x2', '\x5', '\n', '\x1D', '#',
 	};
 
 	public static readonly ATN _ATN =

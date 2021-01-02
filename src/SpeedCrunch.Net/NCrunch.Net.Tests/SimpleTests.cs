@@ -25,6 +25,18 @@ namespace NCrunch.Net.Tests
         }
 
         [Theory]
+        [InlineData("-1+-1", -2)]
+        [InlineData("-1+2", +1)]
+        [InlineData("1+-2", -1)]
+        public void Negative_Integer_Add(string input, object expected)
+        {
+            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
+            var lambda = Expression.Lambda(exp).Compile();
+            var result = lambda.DynamicInvoke();
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
         [InlineData("0*5", 0)]
         [InlineData("5*0", 0)]
         [InlineData("1*5", 5)]
@@ -32,6 +44,19 @@ namespace NCrunch.Net.Tests
         [InlineData("10*5", 50)]
         [InlineData("5*10", 50)]
         public void Positive_Integer_Multiply(string input, object expected)
+        {
+            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
+            var lambda = Expression.Lambda(exp).Compile();
+            var result = lambda.DynamicInvoke();
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("-0*-5", 0)]
+        [InlineData("-1*5", -5)]
+        [InlineData("-1*-5", 5)]
+        [InlineData("1*-5", -5)]
+        public void Negative_Integer_Multiply(string input, object expected)
         {
             var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
             var lambda = Expression.Lambda(exp).Compile();
@@ -53,6 +78,21 @@ namespace NCrunch.Net.Tests
             var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
             var lambda = Expression.Lambda(exp).Compile();
             var result = lambda.DynamicInvoke();
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("0--1", 1)]
+        [InlineData("0--5", 5)]
+        [InlineData("1-+1", 0)]
+        [InlineData("5--1", 6)]
+        [InlineData("-5--1", -4)]
+        public void Negative_Integer_Substraction(string input, object expected)
+        {
+            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
+            var lambda = Expression.Lambda(exp).Compile();
+            var result = lambda.DynamicInvoke();
+
             Assert.Equal(expected, result);
         }
 

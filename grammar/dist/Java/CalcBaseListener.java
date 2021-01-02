@@ -15,6 +15,18 @@ public class CalcBaseListener implements CalcListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStartrule(CalcParser.StartruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStartrule(CalcParser.StartruleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBinaryAddInt(CalcParser.BinaryAddIntContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -22,6 +34,78 @@ public class CalcBaseListener implements CalcListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBinaryAddInt(CalcParser.BinaryAddIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinaryAddSimple(CalcParser.BinaryAddSimpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryAddSimple(CalcParser.BinaryAddSimpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinaryMultiplyInt(CalcParser.BinaryMultiplyIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryMultiplyInt(CalcParser.BinaryMultiplyIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinarySubstractInt(CalcParser.BinarySubstractIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinarySubstractInt(CalcParser.BinarySubstractIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinaryDivisionInt(CalcParser.BinaryDivisionIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryDivisionInt(CalcParser.BinaryDivisionIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinaryModulusInt(CalcParser.BinaryModulusIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryModulusInt(CalcParser.BinaryModulusIntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSignedatom(CalcParser.SignedatomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSignedatom(CalcParser.SignedatomContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

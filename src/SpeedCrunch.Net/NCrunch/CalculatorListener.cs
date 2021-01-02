@@ -89,6 +89,18 @@ namespace NCrunch
             base.EnterBinaryModulusInt(context);
         }
 
+        public override void EnterBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context)
+        {
+            var leftText = context.children[0].GetText();
+            var rightText = context.children[1].GetText();
+            var leftInt = int.Parse(leftText);
+            var rightInt = int.Parse(rightText);
+
+            _expression = Add(Constant(leftInt), Constant(rightInt));
+
+            base.EnterBinaryAddSimple(context);
+        }
+
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);

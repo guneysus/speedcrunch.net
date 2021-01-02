@@ -1,14 +1,4 @@
-ANTLR_PATH := D:\bin\java\antlr-4.9-complete.jar
-export CLASSPATH=$(ANTLR_PATH)
-
-ANTLR := java org.antlr.v4.Tool
-GRUN  := java org.antlr.v4.gui.TestRig
-
-NAME 	= Calc
-GRAMMAR = grammar/Calc.g4
-LEXER 	= $(NAME)Lexer.g4	
-PARSER 	= $(NAME)Parser.g4	
-OUTPUT	= grammar/dist
+include Makefile.in
 
 default:
 
@@ -24,11 +14,16 @@ CSharp:
 	
 Java:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
+	$(JAVAC) $(OUTPUT)/$@/*.java
 	
 JavaScript:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
 
+
 Python3:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
 	
-.PHONY: default all java Java js JavaScript cs CSharp py Python3
+debug:
+	$(MAKE) default -C $(OUTPUT)/Java
+	
+.PHONY: default all java Java js JavaScript cs CSharp py Python3 debug
