@@ -16,7 +16,7 @@ public class CalcParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		PLUS=1, TIMES=2, INT=3;
+		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, INT=5;
 	public static final int
 		RULE_startRule = 0;
 	private static String[] makeRuleNames() {
@@ -28,13 +28,13 @@ public class CalcParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'+'", "'*'"
+			null, "'+'", "'*'", "'-'", "'/'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "PLUS", "TIMES", "INT"
+			null, "PLUS", "TIMES", "MINUS", "DIVISION", "INT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -115,12 +115,28 @@ public class CalcParser extends Parser {
 		public TerminalNode PLUS() { return getToken(CalcParser.PLUS, 0); }
 		public BinaryAddIntContext(StartRuleContext ctx) { copyFrom(ctx); }
 	}
+	public static class BinarySubstractIntContext extends StartRuleContext {
+		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(CalcParser.INT, i);
+		}
+		public TerminalNode MINUS() { return getToken(CalcParser.MINUS, 0); }
+		public BinarySubstractIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+	}
+	public static class BinaryDivisionIntContext extends StartRuleContext {
+		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(CalcParser.INT, i);
+		}
+		public TerminalNode DIVISION() { return getToken(CalcParser.DIVISION, 0); }
+		public BinaryDivisionIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+	}
 
 	public final StartRuleContext startRule() throws RecognitionException {
 		StartRuleContext _localctx = new StartRuleContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_startRule);
 		try {
-			setState(8);
+			setState(14);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
@@ -147,6 +163,30 @@ public class CalcParser extends Parser {
 				match(INT);
 				}
 				break;
+			case 3:
+				_localctx = new BinarySubstractIntContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(8);
+				match(INT);
+				setState(9);
+				match(MINUS);
+				setState(10);
+				match(INT);
+				}
+				break;
+			case 4:
+				_localctx = new BinaryDivisionIntContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(11);
+				match(INT);
+				setState(12);
+				match(DIVISION);
+				setState(13);
+				match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -161,10 +201,12 @@ public class CalcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\r\4\2\t\2\3\2\3"+
-		"\2\3\2\3\2\3\2\3\2\5\2\13\n\2\3\2\2\2\3\2\2\2\2\f\2\n\3\2\2\2\4\5\7\5"+
-		"\2\2\5\6\7\3\2\2\6\13\7\5\2\2\7\b\7\5\2\2\b\t\7\4\2\2\t\13\7\5\2\2\n\4"+
-		"\3\2\2\2\n\7\3\2\2\2\13\3\3\2\2\2\3\n";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\23\4\2\t\2\3\2"+
+		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2\21\n\2\3\2\2\2\3\2\2"+
+		"\2\2\24\2\20\3\2\2\2\4\5\7\7\2\2\5\6\7\3\2\2\6\21\7\7\2\2\7\b\7\7\2\2"+
+		"\b\t\7\4\2\2\t\21\7\7\2\2\n\13\7\7\2\2\13\f\7\5\2\2\f\21\7\7\2\2\r\16"+
+		"\7\7\2\2\16\17\7\6\2\2\17\21\7\7\2\2\20\4\3\2\2\2\20\7\3\2\2\2\20\n\3"+
+		"\2\2\2\20\r\3\2\2\2\21\3\3\2\2\2\3\20";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

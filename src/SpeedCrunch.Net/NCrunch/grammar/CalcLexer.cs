@@ -33,7 +33,7 @@ public partial class CalcLexer : Lexer {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		PLUS=1, TIMES=2, INT=3;
+		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, INT=5;
 	public static string[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -43,7 +43,7 @@ public partial class CalcLexer : Lexer {
 	};
 
 	public static readonly string[] ruleNames = {
-		"PLUS", "TIMES", "INT"
+		"PLUS", "TIMES", "MINUS", "DIVISION", "INT"
 	};
 
 
@@ -57,10 +57,10 @@ public partial class CalcLexer : Lexer {
 	}
 
 	private static readonly string[] _LiteralNames = {
-		null, "'+'", "'*'"
+		null, "'+'", "'*'", "'-'", "'/'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "PLUS", "TIMES", "INT"
+		null, "PLUS", "TIMES", "MINUS", "DIVISION", "INT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -91,21 +91,28 @@ public partial class CalcLexer : Lexer {
 	}
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x2', '\x5', '\x12', '\b', '\x1', '\x4', '\x2', '\t', '\x2', 
-		'\x4', '\x3', '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x3', '\x2', '\x3', 
-		'\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x4', '\x6', '\x4', '\xF', 
-		'\n', '\x4', '\r', '\x4', '\xE', '\x4', '\x10', '\x2', '\x2', '\x5', '\x3', 
-		'\x3', '\x5', '\x4', '\a', '\x5', '\x3', '\x2', '\x3', '\x3', '\x2', '\x32', 
-		';', '\x2', '\x12', '\x2', '\x3', '\x3', '\x2', '\x2', '\x2', '\x2', '\x5', 
-		'\x3', '\x2', '\x2', '\x2', '\x2', '\a', '\x3', '\x2', '\x2', '\x2', '\x3', 
-		'\t', '\x3', '\x2', '\x2', '\x2', '\x5', '\v', '\x3', '\x2', '\x2', '\x2', 
-		'\a', '\xE', '\x3', '\x2', '\x2', '\x2', '\t', '\n', '\a', '-', '\x2', 
-		'\x2', '\n', '\x4', '\x3', '\x2', '\x2', '\x2', '\v', '\f', '\a', ',', 
-		'\x2', '\x2', '\f', '\x6', '\x3', '\x2', '\x2', '\x2', '\r', '\xF', '\t', 
-		'\x2', '\x2', '\x2', '\xE', '\r', '\x3', '\x2', '\x2', '\x2', '\xF', '\x10', 
-		'\x3', '\x2', '\x2', '\x2', '\x10', '\xE', '\x3', '\x2', '\x2', '\x2', 
-		'\x10', '\x11', '\x3', '\x2', '\x2', '\x2', '\x11', '\b', '\x3', '\x2', 
-		'\x2', '\x2', '\x4', '\x2', '\x10', '\x2',
+		'\x5964', '\x2', '\a', '\x1A', '\b', '\x1', '\x4', '\x2', '\t', '\x2', 
+		'\x4', '\x3', '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', 
+		'\x5', '\x4', '\x6', '\t', '\x6', '\x3', '\x2', '\x3', '\x2', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x5', '\x3', '\x5', 
+		'\x3', '\x6', '\x6', '\x6', '\x17', '\n', '\x6', '\r', '\x6', '\xE', '\x6', 
+		'\x18', '\x2', '\x2', '\a', '\x3', '\x3', '\x5', '\x4', '\a', '\x5', '\t', 
+		'\x6', '\v', '\a', '\x3', '\x2', '\x3', '\x3', '\x2', '\x32', ';', '\x2', 
+		'\x1A', '\x2', '\x3', '\x3', '\x2', '\x2', '\x2', '\x2', '\x5', '\x3', 
+		'\x2', '\x2', '\x2', '\x2', '\a', '\x3', '\x2', '\x2', '\x2', '\x2', '\t', 
+		'\x3', '\x2', '\x2', '\x2', '\x2', '\v', '\x3', '\x2', '\x2', '\x2', '\x3', 
+		'\r', '\x3', '\x2', '\x2', '\x2', '\x5', '\xF', '\x3', '\x2', '\x2', '\x2', 
+		'\a', '\x11', '\x3', '\x2', '\x2', '\x2', '\t', '\x13', '\x3', '\x2', 
+		'\x2', '\x2', '\v', '\x16', '\x3', '\x2', '\x2', '\x2', '\r', '\xE', '\a', 
+		'-', '\x2', '\x2', '\xE', '\x4', '\x3', '\x2', '\x2', '\x2', '\xF', '\x10', 
+		'\a', ',', '\x2', '\x2', '\x10', '\x6', '\x3', '\x2', '\x2', '\x2', '\x11', 
+		'\x12', '\a', '/', '\x2', '\x2', '\x12', '\b', '\x3', '\x2', '\x2', '\x2', 
+		'\x13', '\x14', '\a', '\x31', '\x2', '\x2', '\x14', '\n', '\x3', '\x2', 
+		'\x2', '\x2', '\x15', '\x17', '\t', '\x2', '\x2', '\x2', '\x16', '\x15', 
+		'\x3', '\x2', '\x2', '\x2', '\x17', '\x18', '\x3', '\x2', '\x2', '\x2', 
+		'\x18', '\x16', '\x3', '\x2', '\x2', '\x2', '\x18', '\x19', '\x3', '\x2', 
+		'\x2', '\x2', '\x19', '\f', '\x3', '\x2', '\x2', '\x2', '\x4', '\x2', 
+		'\x18', '\x2',
 	};
 
 	public static readonly ATN _ATN =

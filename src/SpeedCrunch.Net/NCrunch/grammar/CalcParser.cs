@@ -36,7 +36,7 @@ public partial class CalcParser : Parser {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		PLUS=1, TIMES=2, INT=3;
+		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, INT=5;
 	public const int
 		RULE_startRule = 0;
 	public static readonly string[] ruleNames = {
@@ -44,10 +44,10 @@ public partial class CalcParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'+'", "'*'"
+		null, "'+'", "'*'", "'-'", "'/'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "PLUS", "TIMES", "INT"
+		null, "PLUS", "TIMES", "MINUS", "DIVISION", "INT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -141,13 +141,61 @@ public partial class CalcParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class BinarySubstractIntContext : StartRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
+			return GetToken(CalcParser.INT, i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(CalcParser.MINUS, 0); }
+		public BinarySubstractIntContext(StartRuleContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterBinarySubstractInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitBinarySubstractInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinarySubstractInt(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class BinaryDivisionIntContext : StartRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
+			return GetToken(CalcParser.INT, i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DIVISION() { return GetToken(CalcParser.DIVISION, 0); }
+		public BinaryDivisionIntContext(StartRuleContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterBinaryDivisionInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitBinaryDivisionInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryDivisionInt(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 
 	[RuleVersion(0)]
 	public StartRuleContext startRule() {
 		StartRuleContext _localctx = new StartRuleContext(Context, State);
 		EnterRule(_localctx, 0, RULE_startRule);
 		try {
-			State = 8;
+			State = 14;
 			ErrorHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
 			case 1:
@@ -168,6 +216,24 @@ public partial class CalcParser : Parser {
 				State = 7; Match(INT);
 				}
 				break;
+			case 3:
+				_localctx = new BinarySubstractIntContext(_localctx);
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 8; Match(INT);
+				State = 9; Match(MINUS);
+				State = 10; Match(INT);
+				}
+				break;
+			case 4:
+				_localctx = new BinaryDivisionIntContext(_localctx);
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 11; Match(INT);
+				State = 12; Match(DIVISION);
+				State = 13; Match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -183,15 +249,22 @@ public partial class CalcParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\x5', '\r', '\x4', '\x2', '\t', '\x2', '\x3', '\x2', 
+		'\x5964', '\x3', '\a', '\x13', '\x4', '\x2', '\t', '\x2', '\x3', '\x2', 
 		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
-		'\x5', '\x2', '\v', '\n', '\x2', '\x3', '\x2', '\x2', '\x2', '\x3', '\x2', 
-		'\x2', '\x2', '\x2', '\f', '\x2', '\n', '\x3', '\x2', '\x2', '\x2', '\x4', 
-		'\x5', '\a', '\x5', '\x2', '\x2', '\x5', '\x6', '\a', '\x3', '\x2', '\x2', 
-		'\x6', '\v', '\a', '\x5', '\x2', '\x2', '\a', '\b', '\a', '\x5', '\x2', 
-		'\x2', '\b', '\t', '\a', '\x4', '\x2', '\x2', '\t', '\v', '\a', '\x5', 
-		'\x2', '\x2', '\n', '\x4', '\x3', '\x2', '\x2', '\x2', '\n', '\a', '\x3', 
-		'\x2', '\x2', '\x2', '\v', '\x3', '\x3', '\x2', '\x2', '\x2', '\x3', '\n',
+		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
+		'\x3', '\x2', '\x5', '\x2', '\x11', '\n', '\x2', '\x3', '\x2', '\x2', 
+		'\x2', '\x3', '\x2', '\x2', '\x2', '\x2', '\x14', '\x2', '\x10', '\x3', 
+		'\x2', '\x2', '\x2', '\x4', '\x5', '\a', '\a', '\x2', '\x2', '\x5', '\x6', 
+		'\a', '\x3', '\x2', '\x2', '\x6', '\x11', '\a', '\a', '\x2', '\x2', '\a', 
+		'\b', '\a', '\a', '\x2', '\x2', '\b', '\t', '\a', '\x4', '\x2', '\x2', 
+		'\t', '\x11', '\a', '\a', '\x2', '\x2', '\n', '\v', '\a', '\a', '\x2', 
+		'\x2', '\v', '\f', '\a', '\x5', '\x2', '\x2', '\f', '\x11', '\a', '\a', 
+		'\x2', '\x2', '\r', '\xE', '\a', '\a', '\x2', '\x2', '\xE', '\xF', '\a', 
+		'\x6', '\x2', '\x2', '\xF', '\x11', '\a', '\a', '\x2', '\x2', '\x10', 
+		'\x4', '\x3', '\x2', '\x2', '\x2', '\x10', '\a', '\x3', '\x2', '\x2', 
+		'\x2', '\x10', '\n', '\x3', '\x2', '\x2', '\x2', '\x10', '\r', '\x3', 
+		'\x2', '\x2', '\x2', '\x11', '\x3', '\x3', '\x2', '\x2', '\x2', '\x3', 
+		'\x10',
 	};
 
 	public static readonly ATN _ATN =

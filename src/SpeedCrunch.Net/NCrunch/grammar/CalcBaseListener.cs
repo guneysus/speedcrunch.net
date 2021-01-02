@@ -63,6 +63,34 @@ public partial class CalcBaseListener : ICalcListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinarySubstractInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinarySubstractInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinaryDivisionInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinaryDivisionInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

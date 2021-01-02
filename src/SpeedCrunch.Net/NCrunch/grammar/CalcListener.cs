@@ -54,4 +54,28 @@ public interface ICalcListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinarySubstractInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinarySubstractInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinaryDivisionInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinaryDivisionInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
 }

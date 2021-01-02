@@ -45,4 +45,18 @@ public interface ICalcVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>BinarySubstractInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>BinaryDivisionInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
 }
