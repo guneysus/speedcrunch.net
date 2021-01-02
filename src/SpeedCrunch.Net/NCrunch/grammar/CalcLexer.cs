@@ -33,7 +33,7 @@ public partial class CalcLexer : Lexer {
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
-		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, INT=5;
+		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, MODULUS=5, INT=6;
 	public static string[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -43,7 +43,7 @@ public partial class CalcLexer : Lexer {
 	};
 
 	public static readonly string[] ruleNames = {
-		"PLUS", "TIMES", "MINUS", "DIVISION", "INT"
+		"PLUS", "TIMES", "MINUS", "DIVISION", "MODULUS", "INT"
 	};
 
 
@@ -57,10 +57,10 @@ public partial class CalcLexer : Lexer {
 	}
 
 	private static readonly string[] _LiteralNames = {
-		null, "'+'", "'*'", "'-'", "'/'"
+		null, "'+'", "'*'", "'-'", "'/'", "'%'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "PLUS", "TIMES", "MINUS", "DIVISION", "INT"
+		null, "PLUS", "TIMES", "MINUS", "DIVISION", "MODULUS", "INT"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -91,28 +91,31 @@ public partial class CalcLexer : Lexer {
 	}
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x2', '\a', '\x1A', '\b', '\x1', '\x4', '\x2', '\t', '\x2', 
+		'\x5964', '\x2', '\b', '\x1E', '\b', '\x1', '\x4', '\x2', '\t', '\x2', 
 		'\x4', '\x3', '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', 
-		'\x5', '\x4', '\x6', '\t', '\x6', '\x3', '\x2', '\x3', '\x2', '\x3', '\x3', 
-		'\x3', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x5', '\x3', '\x5', 
-		'\x3', '\x6', '\x6', '\x6', '\x17', '\n', '\x6', '\r', '\x6', '\xE', '\x6', 
-		'\x18', '\x2', '\x2', '\a', '\x3', '\x3', '\x5', '\x4', '\a', '\x5', '\t', 
-		'\x6', '\v', '\a', '\x3', '\x2', '\x3', '\x3', '\x2', '\x32', ';', '\x2', 
-		'\x1A', '\x2', '\x3', '\x3', '\x2', '\x2', '\x2', '\x2', '\x5', '\x3', 
-		'\x2', '\x2', '\x2', '\x2', '\a', '\x3', '\x2', '\x2', '\x2', '\x2', '\t', 
-		'\x3', '\x2', '\x2', '\x2', '\x2', '\v', '\x3', '\x2', '\x2', '\x2', '\x3', 
-		'\r', '\x3', '\x2', '\x2', '\x2', '\x5', '\xF', '\x3', '\x2', '\x2', '\x2', 
-		'\a', '\x11', '\x3', '\x2', '\x2', '\x2', '\t', '\x13', '\x3', '\x2', 
-		'\x2', '\x2', '\v', '\x16', '\x3', '\x2', '\x2', '\x2', '\r', '\xE', '\a', 
-		'-', '\x2', '\x2', '\xE', '\x4', '\x3', '\x2', '\x2', '\x2', '\xF', '\x10', 
-		'\a', ',', '\x2', '\x2', '\x10', '\x6', '\x3', '\x2', '\x2', '\x2', '\x11', 
-		'\x12', '\a', '/', '\x2', '\x2', '\x12', '\b', '\x3', '\x2', '\x2', '\x2', 
-		'\x13', '\x14', '\a', '\x31', '\x2', '\x2', '\x14', '\n', '\x3', '\x2', 
-		'\x2', '\x2', '\x15', '\x17', '\t', '\x2', '\x2', '\x2', '\x16', '\x15', 
-		'\x3', '\x2', '\x2', '\x2', '\x17', '\x18', '\x3', '\x2', '\x2', '\x2', 
-		'\x18', '\x16', '\x3', '\x2', '\x2', '\x2', '\x18', '\x19', '\x3', '\x2', 
-		'\x2', '\x2', '\x19', '\f', '\x3', '\x2', '\x2', '\x2', '\x4', '\x2', 
-		'\x18', '\x2',
+		'\x5', '\x4', '\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x3', '\x2', 
+		'\x3', '\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x4', '\x3', '\x4', 
+		'\x3', '\x5', '\x3', '\x5', '\x3', '\x6', '\x3', '\x6', '\x3', '\a', '\x6', 
+		'\a', '\x1B', '\n', '\a', '\r', '\a', '\xE', '\a', '\x1C', '\x2', '\x2', 
+		'\b', '\x3', '\x3', '\x5', '\x4', '\a', '\x5', '\t', '\x6', '\v', '\a', 
+		'\r', '\b', '\x3', '\x2', '\x3', '\x3', '\x2', '\x32', ';', '\x2', '\x1E', 
+		'\x2', '\x3', '\x3', '\x2', '\x2', '\x2', '\x2', '\x5', '\x3', '\x2', 
+		'\x2', '\x2', '\x2', '\a', '\x3', '\x2', '\x2', '\x2', '\x2', '\t', '\x3', 
+		'\x2', '\x2', '\x2', '\x2', '\v', '\x3', '\x2', '\x2', '\x2', '\x2', '\r', 
+		'\x3', '\x2', '\x2', '\x2', '\x3', '\xF', '\x3', '\x2', '\x2', '\x2', 
+		'\x5', '\x11', '\x3', '\x2', '\x2', '\x2', '\a', '\x13', '\x3', '\x2', 
+		'\x2', '\x2', '\t', '\x15', '\x3', '\x2', '\x2', '\x2', '\v', '\x17', 
+		'\x3', '\x2', '\x2', '\x2', '\r', '\x1A', '\x3', '\x2', '\x2', '\x2', 
+		'\xF', '\x10', '\a', '-', '\x2', '\x2', '\x10', '\x4', '\x3', '\x2', '\x2', 
+		'\x2', '\x11', '\x12', '\a', ',', '\x2', '\x2', '\x12', '\x6', '\x3', 
+		'\x2', '\x2', '\x2', '\x13', '\x14', '\a', '/', '\x2', '\x2', '\x14', 
+		'\b', '\x3', '\x2', '\x2', '\x2', '\x15', '\x16', '\a', '\x31', '\x2', 
+		'\x2', '\x16', '\n', '\x3', '\x2', '\x2', '\x2', '\x17', '\x18', '\a', 
+		'\'', '\x2', '\x2', '\x18', '\f', '\x3', '\x2', '\x2', '\x2', '\x19', 
+		'\x1B', '\t', '\x2', '\x2', '\x2', '\x1A', '\x19', '\x3', '\x2', '\x2', 
+		'\x2', '\x1B', '\x1C', '\x3', '\x2', '\x2', '\x2', '\x1C', '\x1A', '\x3', 
+		'\x2', '\x2', '\x2', '\x1C', '\x1D', '\x3', '\x2', '\x2', '\x2', '\x1D', 
+		'\xE', '\x3', '\x2', '\x2', '\x2', '\x4', '\x2', '\x1C', '\x2',
 	};
 
 	public static readonly ATN _ATN =

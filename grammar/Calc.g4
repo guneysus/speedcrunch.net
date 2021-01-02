@@ -1,10 +1,11 @@
 grammar Calc;
 
-startRule: 
+startrule: 
     INT PLUS INT # BinaryAddInt
     | INT TIMES INT # BinaryMultiplyInt
     | INT MINUS INT # BinarySubstractInt
     | INT DIVISION INT # BinaryDivisionInt
+    | INT MODULUS INT # BinaryModulusInt
     ;
 
 PLUS: 
@@ -24,7 +25,12 @@ MINUS
 DIVISION
     : 
     '/'
-    ;    
+    ;
+
+MODULUS
+    :
+    '%'
+    ;
 
 INT
     : 

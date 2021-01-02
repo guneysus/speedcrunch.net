@@ -78,6 +78,17 @@ namespace NCrunch
             base.EnterBinaryDivisionInt(context);
         }
 
+        public override void EnterBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context)
+        {
+            var leftText = context.children[0].GetText();
+            var rightText = context.children[2].GetText();
+            var leftInt = int.Parse(leftText);
+            var rightInt = int.Parse(rightText);
+
+            _expression = Modulo(Constant(leftInt), Constant(rightInt));
+            base.EnterBinaryModulusInt(context);
+        }
+
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);

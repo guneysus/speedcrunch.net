@@ -16,25 +16,25 @@ public class CalcParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, INT=5;
+		PLUS=1, TIMES=2, MINUS=3, DIVISION=4, MODULUS=5, INT=6;
 	public static final int
-		RULE_startRule = 0;
+		RULE_startrule = 0;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"startRule"
+			"startrule"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'+'", "'*'", "'-'", "'/'"
+			null, "'+'", "'*'", "'-'", "'/'", "'%'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "PLUS", "TIMES", "MINUS", "DIVISION", "INT"
+			null, "PLUS", "TIMES", "MINUS", "DIVISION", "MODULUS", "INT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -88,55 +88,63 @@ public class CalcParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	public static class StartRuleContext extends ParserRuleContext {
-		public StartRuleContext(ParserRuleContext parent, int invokingState) {
+	public static class StartruleContext extends ParserRuleContext {
+		public StartruleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_startRule; }
+		@Override public int getRuleIndex() { return RULE_startrule; }
 	 
-		public StartRuleContext() { }
-		public void copyFrom(StartRuleContext ctx) {
+		public StartruleContext() { }
+		public void copyFrom(StartruleContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class BinaryMultiplyIntContext extends StartRuleContext {
+	public static class BinaryMultiplyIntContext extends StartruleContext {
 		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
 		public TerminalNode INT(int i) {
 			return getToken(CalcParser.INT, i);
 		}
 		public TerminalNode TIMES() { return getToken(CalcParser.TIMES, 0); }
-		public BinaryMultiplyIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+		public BinaryMultiplyIntContext(StartruleContext ctx) { copyFrom(ctx); }
 	}
-	public static class BinaryAddIntContext extends StartRuleContext {
+	public static class BinaryAddIntContext extends StartruleContext {
 		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
 		public TerminalNode INT(int i) {
 			return getToken(CalcParser.INT, i);
 		}
 		public TerminalNode PLUS() { return getToken(CalcParser.PLUS, 0); }
-		public BinaryAddIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+		public BinaryAddIntContext(StartruleContext ctx) { copyFrom(ctx); }
 	}
-	public static class BinarySubstractIntContext extends StartRuleContext {
+	public static class BinaryModulusIntContext extends StartruleContext {
+		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(CalcParser.INT, i);
+		}
+		public TerminalNode MODULUS() { return getToken(CalcParser.MODULUS, 0); }
+		public BinaryModulusIntContext(StartruleContext ctx) { copyFrom(ctx); }
+	}
+	public static class BinarySubstractIntContext extends StartruleContext {
 		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
 		public TerminalNode INT(int i) {
 			return getToken(CalcParser.INT, i);
 		}
 		public TerminalNode MINUS() { return getToken(CalcParser.MINUS, 0); }
-		public BinarySubstractIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+		public BinarySubstractIntContext(StartruleContext ctx) { copyFrom(ctx); }
 	}
-	public static class BinaryDivisionIntContext extends StartRuleContext {
+	public static class BinaryDivisionIntContext extends StartruleContext {
 		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
 		public TerminalNode INT(int i) {
 			return getToken(CalcParser.INT, i);
 		}
 		public TerminalNode DIVISION() { return getToken(CalcParser.DIVISION, 0); }
-		public BinaryDivisionIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+		public BinaryDivisionIntContext(StartruleContext ctx) { copyFrom(ctx); }
 	}
 
-	public final StartRuleContext startRule() throws RecognitionException {
-		StartRuleContext _localctx = new StartRuleContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_startRule);
+	public final StartruleContext startrule() throws RecognitionException {
+		StartruleContext _localctx = new StartruleContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_startrule);
 		try {
-			setState(14);
+			setState(17);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
@@ -187,6 +195,18 @@ public class CalcParser extends Parser {
 				match(INT);
 				}
 				break;
+			case 5:
+				_localctx = new BinaryModulusIntContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(14);
+				match(INT);
+				setState(15);
+				match(MODULUS);
+				setState(16);
+				match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -201,12 +221,13 @@ public class CalcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\7\23\4\2\t\2\3\2"+
-		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2\21\n\2\3\2\2\2\3\2\2"+
-		"\2\2\24\2\20\3\2\2\2\4\5\7\7\2\2\5\6\7\3\2\2\6\21\7\7\2\2\7\b\7\7\2\2"+
-		"\b\t\7\4\2\2\t\21\7\7\2\2\n\13\7\7\2\2\13\f\7\5\2\2\f\21\7\7\2\2\r\16"+
-		"\7\7\2\2\16\17\7\6\2\2\17\21\7\7\2\2\20\4\3\2\2\2\20\7\3\2\2\2\20\n\3"+
-		"\2\2\2\20\r\3\2\2\2\21\3\3\2\2\2\3\20";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\b\26\4\2\t\2\3\2"+
+		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2\24\n\2\3"+
+		"\2\2\2\3\2\2\2\2\30\2\23\3\2\2\2\4\5\7\b\2\2\5\6\7\3\2\2\6\24\7\b\2\2"+
+		"\7\b\7\b\2\2\b\t\7\4\2\2\t\24\7\b\2\2\n\13\7\b\2\2\13\f\7\5\2\2\f\24\7"+
+		"\b\2\2\r\16\7\b\2\2\16\17\7\6\2\2\17\24\7\b\2\2\20\21\7\b\2\2\21\22\7"+
+		"\7\2\2\22\24\7\b\2\2\23\4\3\2\2\2\23\7\3\2\2\2\23\n\3\2\2\2\23\r\3\2\2"+
+		"\2\23\20\3\2\2\2\24\3\3\2\2\2\3\23";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

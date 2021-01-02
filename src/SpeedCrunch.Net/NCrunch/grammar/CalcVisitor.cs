@@ -33,30 +33,37 @@ using IToken = Antlr4.Runtime.IToken;
 public interface ICalcVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
 	/// Visit a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// labeled alternative in <see cref="CalcParser.startrule"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// labeled alternative in <see cref="CalcParser.startrule"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// labeled alternative in <see cref="CalcParser.startrule"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// labeled alternative in <see cref="CalcParser.startrule"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>BinaryModulusInt</c>
+	/// labeled alternative in <see cref="CalcParser.startrule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context);
 }
