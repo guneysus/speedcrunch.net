@@ -45,6 +45,17 @@ namespace NCrunch
             base.EnterBinaryAddInt(context);
         }
 
+        public override void EnterBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context)
+        {
+            var leftText = context.children[0].GetText();
+            var rightText = context.children[2].GetText();
+            var leftInt = int.Parse(leftText);
+            var rightInt = int.Parse(rightText);
+
+            _expression = Multiply(Constant(leftInt), Constant(rightInt));
+            base.EnterBinaryMultiplyInt(context);
+        }
+
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);

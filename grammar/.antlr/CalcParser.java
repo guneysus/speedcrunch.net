@@ -99,6 +99,14 @@ public class CalcParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class BinaryMultiplyIntContext extends StartRuleContext {
+		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(CalcParser.INT, i);
+		}
+		public TerminalNode TIMES() { return getToken(CalcParser.TIMES, 0); }
+		public BinaryMultiplyIntContext(StartRuleContext ctx) { copyFrom(ctx); }
+	}
 	public static class BinaryAddIntContext extends StartRuleContext {
 		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
 		public TerminalNode INT(int i) {
@@ -112,15 +120,33 @@ public class CalcParser extends Parser {
 		StartRuleContext _localctx = new StartRuleContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_startRule);
 		try {
-			_localctx = new BinaryAddIntContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(2);
-			match(INT);
-			setState(3);
-			match(PLUS);
-			setState(4);
-			match(INT);
+			setState(8);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+			case 1:
+				_localctx = new BinaryAddIntContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(2);
+				match(INT);
+				setState(3);
+				match(PLUS);
+				setState(4);
+				match(INT);
+				}
+				break;
+			case 2:
+				_localctx = new BinaryMultiplyIntContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(5);
+				match(INT);
+				setState(6);
+				match(TIMES);
+				setState(7);
+				match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -135,9 +161,10 @@ public class CalcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\t\4\2\t\2\3\2\3"+
-		"\2\3\2\3\2\3\2\2\2\3\2\2\2\2\7\2\4\3\2\2\2\4\5\7\5\2\2\5\6\7\3\2\2\6\7"+
-		"\7\5\2\2\7\3\3\2\2\2\2";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\5\r\4\2\t\2\3\2\3"+
+		"\2\3\2\3\2\3\2\3\2\5\2\13\n\2\3\2\2\2\3\2\2\2\2\f\2\n\3\2\2\2\4\5\7\5"+
+		"\2\2\5\6\7\3\2\2\6\13\7\5\2\2\7\b\7\5\2\2\b\t\7\4\2\2\t\13\7\5\2\2\n\4"+
+		"\3\2\2\2\n\7\3\2\2\2\13\3\3\2\2\2\3\n";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -49,6 +49,20 @@ public partial class CalcBaseListener : ICalcListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinaryMultiplyInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinaryMultiplyInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

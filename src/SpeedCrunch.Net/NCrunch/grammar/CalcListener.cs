@@ -42,4 +42,16 @@ public interface ICalcListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BinaryMultiplyInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BinaryMultiplyInt</c>
+	/// labeled alternative in <see cref="CalcParser.startRule"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
 }

@@ -93,6 +93,30 @@ public partial class CalcParser : Parser {
 			base.CopyFrom(context);
 		}
 	}
+	public partial class BinaryMultiplyIntContext : StartRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
+			return GetToken(CalcParser.INT, i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode TIMES() { return GetToken(CalcParser.TIMES, 0); }
+		public BinaryMultiplyIntContext(StartRuleContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void EnterRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.EnterBinaryMultiplyInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override void ExitRule(IParseTreeListener listener) {
+			ICalcListener typedListener = listener as ICalcListener;
+			if (typedListener != null) typedListener.ExitBinaryMultiplyInt(this);
+		}
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ICalcVisitor<TResult> typedVisitor = visitor as ICalcVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitBinaryMultiplyInt(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 	public partial class BinaryAddIntContext : StartRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] INT() { return GetTokens(CalcParser.INT); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode INT(int i) {
@@ -123,12 +147,27 @@ public partial class CalcParser : Parser {
 		StartRuleContext _localctx = new StartRuleContext(Context, State);
 		EnterRule(_localctx, 0, RULE_startRule);
 		try {
-			_localctx = new BinaryAddIntContext(_localctx);
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 2; Match(INT);
-			State = 3; Match(PLUS);
-			State = 4; Match(INT);
+			State = 8;
+			ErrorHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(TokenStream,0,Context) ) {
+			case 1:
+				_localctx = new BinaryAddIntContext(_localctx);
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 2; Match(INT);
+				State = 3; Match(PLUS);
+				State = 4; Match(INT);
+				}
+				break;
+			case 2:
+				_localctx = new BinaryMultiplyIntContext(_localctx);
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 5; Match(INT);
+				State = 6; Match(TIMES);
+				State = 7; Match(INT);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -144,12 +183,15 @@ public partial class CalcParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\x5', '\t', '\x4', '\x2', '\t', '\x2', '\x3', '\x2', 
-		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x2', '\x2', 
-		'\x3', '\x2', '\x2', '\x2', '\x2', '\a', '\x2', '\x4', '\x3', '\x2', '\x2', 
-		'\x2', '\x4', '\x5', '\a', '\x5', '\x2', '\x2', '\x5', '\x6', '\a', '\x3', 
-		'\x2', '\x2', '\x6', '\a', '\a', '\x5', '\x2', '\x2', '\a', '\x3', '\x3', 
-		'\x2', '\x2', '\x2', '\x2',
+		'\x5964', '\x3', '\x5', '\r', '\x4', '\x2', '\t', '\x2', '\x3', '\x2', 
+		'\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
+		'\x5', '\x2', '\v', '\n', '\x2', '\x3', '\x2', '\x2', '\x2', '\x3', '\x2', 
+		'\x2', '\x2', '\x2', '\f', '\x2', '\n', '\x3', '\x2', '\x2', '\x2', '\x4', 
+		'\x5', '\a', '\x5', '\x2', '\x2', '\x5', '\x6', '\a', '\x3', '\x2', '\x2', 
+		'\x6', '\v', '\a', '\x5', '\x2', '\x2', '\a', '\b', '\a', '\x5', '\x2', 
+		'\x2', '\b', '\t', '\a', '\x4', '\x2', '\x2', '\t', '\v', '\a', '\x5', 
+		'\x2', '\x2', '\n', '\x4', '\x3', '\x2', '\x2', '\x2', '\n', '\a', '\x3', 
+		'\x2', '\x2', '\x2', '\v', '\x3', '\x3', '\x2', '\x2', '\x2', '\x3', '\n',
 	};
 
 	public static readonly ATN _ATN =
