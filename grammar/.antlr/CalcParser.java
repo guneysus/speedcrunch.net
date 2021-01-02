@@ -1,4 +1,4 @@
-// Generated from grammar/Calc.g4 by ANTLR 4.9
+// Generated from d:\repos\speedcrunch.net\grammar\Calc.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CalcParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.9", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -106,19 +106,6 @@ public class CalcParser extends Parser {
 		}
 		public TerminalNode PLUS() { return getToken(CalcParser.PLUS, 0); }
 		public BinaryAddIntContext(StartRuleContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CalcListener ) ((CalcListener)listener).enterBinaryAddInt(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CalcListener ) ((CalcListener)listener).exitBinaryAddInt(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof CalcVisitor ) return ((CalcVisitor<? extends T>)visitor).visitBinaryAddInt(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StartRuleContext startRule() throws RecognitionException {

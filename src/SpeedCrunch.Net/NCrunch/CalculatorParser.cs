@@ -24,7 +24,7 @@ namespace NCrunch
             parser.AddErrorListener(errorListener);
             try
             {
-                ParseTreePattern tree = parser.CompileParseTreePattern(input, CalcParser.RULE_e);
+                ParseTreePattern tree = parser.CompileParseTreePattern(input, CalcParser.RULE_startRule);
                 tree.PatternTree.ToStringTree();
                 return (tree, tree.PatternTree.ToStringTree());
             }
@@ -40,7 +40,7 @@ namespace NCrunch
             throw new NotImplementedException();
         }
 
-        public static (CalcParser parser, CalcParser.EContext ctx) Parse(string input)
+        public static (CalcParser parser, CalcParser.StartRuleContext ctx, Expression) Parse(string input)
         {
             var stream = new AntlrInputStream(input);
             var lexer = new CalcLexer(stream);
@@ -49,7 +49,7 @@ namespace NCrunch
             parser.BuildParseTree = true;
             parser.TrimParseTree = true;
 
-            CalcParser.EContext ctx = parser.e();
+            CalcParser.StartRuleContext ctx = parser.startRule();
 
             var errorListener = new CalcErrorListener();
             parser.AddErrorListener(errorListener);
@@ -59,7 +59,7 @@ namespace NCrunch
 
             Antlr4.Runtime.Tree.ParseTreeWalker.Default.Walk(listener, ctx);
 
-            return (parser, ctx);
+            return (parser, ctx, listener.GetExpression());
         }
     }
 }

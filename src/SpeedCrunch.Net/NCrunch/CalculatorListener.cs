@@ -4,54 +4,51 @@ using Antlr4.Runtime.Tree;
 using Antlr4.Runtime.Tree.Pattern;
 using System;
 using System.Linq.Expressions;
+using static System.Linq.Expressions.Expression;
 
 namespace NCrunch
 {
 
     public class CalculatorListener : CalcBaseListener
     {
-        Expression expression;
+        Expression _expression = Constant(int.MaxValue);
 
-        public override void EnterInt([NotNull] CalcParser.IntContext context)
+        public Expression GetExpression() => _expression;
+
+        //public override void EnterInt([NotNull] CalcParser.IntContext context)
+        //{
+        //    //switch (context.Start.Type)
+        //    //{
+        //    //    case CalcParser.INT:
+        //    //        break;
+        //    //    case CalcParser.HEX:
+        //    //        break;
+        //    //    default:
+        //    //        break;
+        //    //}
+
+        //    var c = Constant(int.Parse(context.GetText()), typeof(int));
+
+        //    base.EnterInt(context);
+        //}
+
+
+        public override void EnterBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context)
         {
-            //switch (context.Start.Type)
-            //{
-            //    case CalcParser.INT:
-            //        break;
-            //    case CalcParser.HEX:
-            //        break;
-            //    default:
-            //        break;
-            //}
+            var leftText = context.children[0].GetText();
+            var rightText = context.children[2].GetText();
+            var leftInt = int.Parse(leftText);
+            var rightInt = int.Parse(rightText);
 
-            base.EnterInt(context);
-        }
+            _expression = Add(Constant(leftInt), Constant(rightInt));
 
-        public override void EnterHex([NotNull] CalcParser.HexContext context)
-        {
-            base.EnterHex(context);
+            base.EnterBinaryAddInt(context);
         }
 
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);
         }
-
-        public override void EnterAdd([NotNull] CalcParser.AddContext context)
-        {
-            base.EnterAdd(context);
-        }
-
-        public override void EnterMult([NotNull] CalcParser.MultContext context)
-        {
-            base.EnterMult(context);
-        }
-
-        public override void VisitErrorNode([NotNull] IErrorNode node)
-        {
-            base.VisitErrorNode(node);
-        }
-
 
     }
 }

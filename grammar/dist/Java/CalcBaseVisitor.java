@@ -1,4 +1,4 @@
-// Generated from Calc.g4 by ANTLR 4.8
+// Generated from grammar/Calc.g4 by ANTLR 4.9
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -16,26 +16,5 @@ public class CalcBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements C
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAdd(CalcParser.AddContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMult(CalcParser.MultContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitHex(CalcParser.HexContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitInt(CalcParser.IntContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBinaryAddInt(CalcParser.BinaryAddIntContext ctx) { return visitChildren(ctx); }
 }

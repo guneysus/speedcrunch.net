@@ -1,11 +1,19 @@
 grammar Calc;
 
-e   : e '*' e # Mult
-    | e '+' e # Add
-    | INT # Int
-    | HEX # Hex
+startRule: 
+    INT PLUS INT # BinaryAddInt
     ;
 
+PLUS: 
+    '+'
+    ;
 
-INT: [0-9]+;
-HEX:  '0x'([0-9a-fA-F])+;
+TIMES
+    : 
+    '*'
+    ;
+
+INT
+    : 
+    [0-9]+
+    ;

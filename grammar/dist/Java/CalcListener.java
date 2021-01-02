@@ -1,4 +1,4 @@
-// Generated from Calc.g4 by ANTLR 4.8
+// Generated from grammar/Calc.g4 by ANTLR 4.9
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -7,51 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface CalcListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link CalcParser#e}.
+	 * Enter a parse tree produced by the {@code BinaryAddInt}
+	 * labeled alternative in {@link CalcParser#startRule}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdd(CalcParser.AddContext ctx);
+	void enterBinaryAddInt(CalcParser.BinaryAddIntContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link CalcParser#e}.
+	 * Exit a parse tree produced by the {@code BinaryAddInt}
+	 * labeled alternative in {@link CalcParser#startRule}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdd(CalcParser.AddContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Mult}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void enterMult(CalcParser.MultContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Mult}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void exitMult(CalcParser.MultContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Hex}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void enterHex(CalcParser.HexContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Hex}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void exitHex(CalcParser.HexContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Int}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void enterInt(CalcParser.IntContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Int}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 */
-	void exitInt(CalcParser.IntContext ctx);
+	void exitBinaryAddInt(CalcParser.BinaryAddIntContext ctx);
 }

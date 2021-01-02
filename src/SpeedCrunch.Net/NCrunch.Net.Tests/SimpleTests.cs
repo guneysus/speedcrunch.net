@@ -7,13 +7,14 @@ namespace NCrunch.Net.Tests
     public class SimpleTests
     {
 
-        [Fact]
-        public void Simple_addition()
+        [Theory]
+        [InlineData("3+5", 8)]
+        public void Simple_Binary_Add(string input, object expected)
         {
-            var input = "3+5";
-            var exp = NCrunch.CalculatorParser.Compile(input);
-
-            Assert.True(exp is BinaryExpression);
+            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
+            var lambda = Expression.Lambda(exp).Compile();
+            var result = lambda.DynamicInvoke();
+            Assert.Equal(expected, result);
         }
 
     }

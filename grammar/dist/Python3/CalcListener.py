@@ -1,4 +1,4 @@
-# Generated from Calc.g4 by ANTLR 4.8
+# Generated from grammar/Calc.g4 by ANTLR 4.9
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .CalcParser import CalcParser
@@ -8,39 +8,12 @@ else:
 # This class defines a complete listener for a parse tree produced by CalcParser.
 class CalcListener(ParseTreeListener):
 
-    # Enter a parse tree produced by CalcParser#Add.
-    def enterAdd(self, ctx:CalcParser.AddContext):
+    # Enter a parse tree produced by CalcParser#BinaryAddInt.
+    def enterBinaryAddInt(self, ctx:CalcParser.BinaryAddIntContext):
         pass
 
-    # Exit a parse tree produced by CalcParser#Add.
-    def exitAdd(self, ctx:CalcParser.AddContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcParser#Mult.
-    def enterMult(self, ctx:CalcParser.MultContext):
-        pass
-
-    # Exit a parse tree produced by CalcParser#Mult.
-    def exitMult(self, ctx:CalcParser.MultContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcParser#Hex.
-    def enterHex(self, ctx:CalcParser.HexContext):
-        pass
-
-    # Exit a parse tree produced by CalcParser#Hex.
-    def exitHex(self, ctx:CalcParser.HexContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcParser#Int.
-    def enterInt(self, ctx:CalcParser.IntContext):
-        pass
-
-    # Exit a parse tree produced by CalcParser#Int.
-    def exitInt(self, ctx:CalcParser.IntContext):
+    # Exit a parse tree produced by CalcParser#BinaryAddInt.
+    def exitBinaryAddInt(self, ctx:CalcParser.BinaryAddIntContext):
         pass
 
 

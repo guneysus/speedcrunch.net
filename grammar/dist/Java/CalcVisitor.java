@@ -1,4 +1,4 @@
-// Generated from Calc.g4 by ANTLR 4.8
+// Generated from grammar/Calc.g4 by ANTLR 4.9
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -10,31 +10,10 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface CalcVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link CalcParser#e}.
+	 * Visit a parse tree produced by the {@code BinaryAddInt}
+	 * labeled alternative in {@link CalcParser#startRule}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdd(CalcParser.AddContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Mult}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMult(CalcParser.MultContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Hex}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHex(CalcParser.HexContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Int}
-	 * labeled alternative in {@link CalcParser#e}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInt(CalcParser.IntContext ctx);
+	T visitBinaryAddInt(CalcParser.BinaryAddIntContext ctx);
 }

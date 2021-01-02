@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Calc.interp" />
+    <None Remove="Calc.tokens" />
+    <None Remove="CalcLexer.interp" />
+    <None Remove="CalcLexer.tokens" />
+    <None Remove="grammar\Calc.interp" />
+    <None Remove="grammar\Calc.tokens" />
+    <None Remove="grammar\CalcLexer.interp" />
+    <None Remove="grammar\CalcLexer.tokens" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.0" />
   </ItemGroup>
 

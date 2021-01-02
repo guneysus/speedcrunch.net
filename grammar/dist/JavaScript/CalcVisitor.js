@@ -1,40 +1,16 @@
-// Generated from Calc.g4 by ANTLR 4.8
+// Generated from grammar/Calc.g4 by ANTLR 4.9
 // jshint ignore: start
-var antlr4 = require('antlr4/index');
+import antlr4 from 'antlr4';
 
 // This class defines a complete generic visitor for a parse tree produced by CalcParser.
 
-function CalcVisitor() {
-	antlr4.tree.ParseTreeVisitor.call(this);
-	return this;
+export default class CalcVisitor extends antlr4.tree.ParseTreeVisitor {
+
+	// Visit a parse tree produced by CalcParser#BinaryAddInt.
+	visitBinaryAddInt(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
+
 }
-
-CalcVisitor.prototype = Object.create(antlr4.tree.ParseTreeVisitor.prototype);
-CalcVisitor.prototype.constructor = CalcVisitor;
-
-// Visit a parse tree produced by CalcParser#Add.
-CalcVisitor.prototype.visitAdd = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by CalcParser#Mult.
-CalcVisitor.prototype.visitMult = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by CalcParser#Hex.
-CalcVisitor.prototype.visitHex = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-// Visit a parse tree produced by CalcParser#Int.
-CalcVisitor.prototype.visitInt = function(ctx) {
-  return this.visitChildren(ctx);
-};
-
-
-
-exports.CalcVisitor = CalcVisitor;

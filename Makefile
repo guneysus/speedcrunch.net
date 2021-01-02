@@ -5,10 +5,10 @@ ANTLR := java org.antlr.v4.Tool
 GRUN  := java org.antlr.v4.gui.TestRig
 
 NAME 	= Calc
-GRAMMAR = Calc.g4
+GRAMMAR = grammar/Calc.g4
 LEXER 	= $(NAME)Lexer.g4	
 PARSER 	= $(NAME)Parser.g4	
-OUTPUT	= dist
+OUTPUT	= grammar/dist
 
 default:
 
@@ -19,9 +19,12 @@ cs: CSharp
 js: JavaScript
 py: Python3
 
-CSharp Java:
+CSharp:
+	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o src/SpeedCrunch.Net/NCrunch/grammar
+	
+Java:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
-
+	
 JavaScript:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
 
