@@ -19,63 +19,88 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+
 using Antlr4.Runtime.Misc;
-using IParseTreeListener = Antlr4.Runtime.Tree.IParseTreeListener;
+using IErrorNode = Antlr4.Runtime.Tree.IErrorNode;
+using ITerminalNode = Antlr4.Runtime.Tree.ITerminalNode;
 using IToken = Antlr4.Runtime.IToken;
+using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 
 /// <summary>
-/// This interface defines a complete listener for a parse tree produced by
-/// <see cref="CalcParser"/>.
+/// This class provides an empty implementation of <see cref="ICalcListener"/>,
+/// which can be extended to create a listener which only needs to handle a subset
+/// of the available methods.
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.8")]
 [System.CLSCompliant(false)]
-public interface ICalcListener : IParseTreeListener {
+public partial class CalcBaseListener : ICalcListener {
 	/// <summary>
 	/// Enter a parse tree produced by the <c>Add</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAdd([NotNull] CalcParser.AddContext context);
+	public virtual void EnterAdd([NotNull] CalcParser.AddContext context) { }
 	/// <summary>
 	/// Exit a parse tree produced by the <c>Add</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAdd([NotNull] CalcParser.AddContext context);
+	public virtual void ExitAdd([NotNull] CalcParser.AddContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>Mult</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterMult([NotNull] CalcParser.MultContext context);
+	public virtual void EnterMult([NotNull] CalcParser.MultContext context) { }
 	/// <summary>
 	/// Exit a parse tree produced by the <c>Mult</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitMult([NotNull] CalcParser.MultContext context);
+	public virtual void ExitMult([NotNull] CalcParser.MultContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>Hex</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterHex([NotNull] CalcParser.HexContext context);
+	public virtual void EnterHex([NotNull] CalcParser.HexContext context) { }
 	/// <summary>
 	/// Exit a parse tree produced by the <c>Hex</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitHex([NotNull] CalcParser.HexContext context);
+	public virtual void ExitHex([NotNull] CalcParser.HexContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>Int</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterInt([NotNull] CalcParser.IntContext context);
+	public virtual void EnterInt([NotNull] CalcParser.IntContext context) { }
 	/// <summary>
 	/// Exit a parse tree produced by the <c>Int</c>
 	/// labeled alternative in <see cref="CalcParser.e"/>.
+	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitInt([NotNull] CalcParser.IntContext context);
+	public virtual void ExitInt([NotNull] CalcParser.IntContext context) { }
+
+	/// <inheritdoc/>
+	/// <remarks>The default implementation does nothing.</remarks>
+	public virtual void EnterEveryRule([NotNull] ParserRuleContext context) { }
+	/// <inheritdoc/>
+	/// <remarks>The default implementation does nothing.</remarks>
+	public virtual void ExitEveryRule([NotNull] ParserRuleContext context) { }
+	/// <inheritdoc/>
+	/// <remarks>The default implementation does nothing.</remarks>
+	public virtual void VisitTerminal([NotNull] ITerminalNode node) { }
+	/// <inheritdoc/>
+	/// <remarks>The default implementation does nothing.</remarks>
+	public virtual void VisitErrorNode([NotNull] IErrorNode node) { }
 }

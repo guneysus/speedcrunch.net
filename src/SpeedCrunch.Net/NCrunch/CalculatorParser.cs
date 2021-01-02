@@ -17,7 +17,7 @@ namespace NCrunch
             parser.BuildParseTree = true;
             parser.TrimParseTree = true;
 
-            var listener = new CalcListener();
+            var listener = new CalculatorListener();
             parser.AddParseListener(listener);
 
             var errorListener = new CalcErrorListener();
@@ -54,7 +54,7 @@ namespace NCrunch
             var errorListener = new CalcErrorListener();
             parser.AddErrorListener(errorListener);
 
-            var listener = new CalcListener();
+            var listener = new CalculatorListener();
             parser.AddParseListener(listener);
 
             Antlr4.Runtime.Tree.ParseTreeWalker.Default.Walk(listener, ctx);
