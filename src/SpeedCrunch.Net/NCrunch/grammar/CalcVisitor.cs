@@ -32,57 +32,33 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ICalcVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="CalcParser.startrule"/>.
+	/// Visit a parse tree produced by <see cref="CalcParser.startRule"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStartrule([NotNull] CalcParser.StartruleContext context);
+	Result VisitStartRule([NotNull] CalcParser.StartRuleContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Visit a parse tree produced by <see cref="CalcParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context);
+	Result VisitExpression([NotNull] CalcParser.ExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryAddSimple</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Visit a parse tree produced by <see cref="CalcParser.addition"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context);
+	Result VisitAddition([NotNull] CalcParser.AdditionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Visit a parse tree produced by <see cref="CalcParser.multiplication"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context);
+	Result VisitMultiplication([NotNull] CalcParser.MultiplicationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Visit a parse tree produced by <see cref="CalcParser.atom"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context);
-	/// <summary>
-	/// Visit a parse tree produced by the <c>BinaryModulusInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="CalcParser.signedatom"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSignedatom([NotNull] CalcParser.SignedatomContext context);
+	Result VisitAtom([NotNull] CalcParser.AtomContext context);
 }

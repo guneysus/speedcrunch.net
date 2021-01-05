@@ -36,113 +36,65 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class CalcBaseListener : ICalcListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="CalcParser.startrule"/>.
+	/// Enter a parse tree produced by <see cref="CalcParser.startRule"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStartrule([NotNull] CalcParser.StartruleContext context) { }
+	public virtual void EnterStartRule([NotNull] CalcParser.StartRuleContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="CalcParser.startrule"/>.
+	/// Exit a parse tree produced by <see cref="CalcParser.startRule"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStartrule([NotNull] CalcParser.StartruleContext context) { }
+	public virtual void ExitStartRule([NotNull] CalcParser.StartRuleContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Enter a parse tree produced by <see cref="CalcParser.expression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context) { }
+	public virtual void EnterExpression([NotNull] CalcParser.ExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryAddInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Exit a parse tree produced by <see cref="CalcParser.expression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryAddInt([NotNull] CalcParser.BinaryAddIntContext context) { }
+	public virtual void ExitExpression([NotNull] CalcParser.ExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryAddSimple</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Enter a parse tree produced by <see cref="CalcParser.addition"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context) { }
+	public virtual void EnterAddition([NotNull] CalcParser.AdditionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryAddSimple</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Exit a parse tree produced by <see cref="CalcParser.addition"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryAddSimple([NotNull] CalcParser.BinaryAddSimpleContext context) { }
+	public virtual void ExitAddition([NotNull] CalcParser.AdditionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Enter a parse tree produced by <see cref="CalcParser.multiplication"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context) { }
+	public virtual void EnterMultiplication([NotNull] CalcParser.MultiplicationContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryMultiplyInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Exit a parse tree produced by <see cref="CalcParser.multiplication"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryMultiplyInt([NotNull] CalcParser.BinaryMultiplyIntContext context) { }
+	public virtual void ExitMultiplication([NotNull] CalcParser.MultiplicationContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Enter a parse tree produced by <see cref="CalcParser.atom"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context) { }
+	public virtual void EnterAtom([NotNull] CalcParser.AtomContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by the <c>BinarySubstractInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
+	/// Exit a parse tree produced by <see cref="CalcParser.atom"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinarySubstractInt([NotNull] CalcParser.BinarySubstractIntContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryDivisionInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryDivisionInt([NotNull] CalcParser.BinaryDivisionIntContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by the <c>BinaryModulusInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>BinaryModulusInt</c>
-	/// labeled alternative in <see cref="CalcParser.binaryexpression"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBinaryModulusInt([NotNull] CalcParser.BinaryModulusIntContext context) { }
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="CalcParser.signedatom"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSignedatom([NotNull] CalcParser.SignedatomContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="CalcParser.signedatom"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSignedatom([NotNull] CalcParser.SignedatomContext context) { }
+	public virtual void ExitAtom([NotNull] CalcParser.AtomContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

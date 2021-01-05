@@ -1,6 +1,6 @@
 include Makefile.in
 
-default:
+default: test
 
 all: java cs js py
 
@@ -23,7 +23,7 @@ JavaScript:
 Python3:
 	$(ANTLR) $(GRAMMAR) -Dlanguage=$@ -visitor -o $(OUTPUT)/$@/
 	
-debug:
-	$(MAKE) default -C $(OUTPUT)/Java
+test: java
+	@$(MAKE) -C $(OUTPUT)/Java
 	
-.PHONY: default all java Java js JavaScript cs CSharp py Python3 debug
+.PHONY: default all java Java js JavaScript cs CSharp py Python3 test

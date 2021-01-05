@@ -1,12 +1,8 @@
 include ../../../Makefile.in
 
-default: debug
+default: test
 
-debug:
-	echo "5-1" | $(GRUN) Calc startrule -tree -tokens -gui
-	echo "-3-1" | $(GRUN) Calc startrule -tree -tokens -gui
-	echo "5+1" | $(GRUN) Calc startrule -tree -tokens -gui
-	echo "5--1" | $(GRUN) Calc startrule -tree -tokens -gui
-	echo "5-+1" | $(GRUN) Calc startrule -tree -tokens -gui
+test:
+	@powershell .\tests.ps1
 
-.PHONY: default debug
+.PHONY: default test

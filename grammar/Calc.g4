@@ -1,29 +1,31 @@
 grammar Calc;
 
-startrule: binaryexpression (EOF)?;
+startRule: expression;
 
-binaryexpression:
-	INT PLUS INT		# BinaryAddInt
-    | INT INT           # BinaryAddSimple
-	| INT TIMES INT		# BinaryMultiplyInt
-	| INT MINUS INT		# BinarySubstractInt
-	| INT DIVISION INT	# BinaryDivisionInt
-	| INT MODULUS INT	# BinaryModulusInt;
+expression     : addition;
+addition       : multiplication ((PLUS|MINUS|MODULUS|POW) multiplication)* ;
+multiplication : atom ((TIMES|DIV) atom)* ;
+atom           : NUMBER ;
 
-signedatom: PLUS signedatom | MINUS signedatom;
+// expression : expression '*' expression
+//            | expression '+' expression                      
+//            | atom
+//            ;
+// atom           : NUMBER ;           
+
+NUMBER: DIGITS;
 
 PLUS: '+';
 MINUS: '-';
 TIMES: '*';
-DIVISION: '/';
+POW: '^';
+DIV: '/';
 MODULUS: '%';
 
-INT: NUMBER;
+DIGITS: DIGIT (DIGIT+)?;
 
-fragment NUMBER: (SIGN)? DIGIT (DIGIT+)?;
+DIGIT: [0-9];
 
-fragment DIGIT: [0-9];
-
-fragment SIGN: ('+' | '-');
+SIGN: ('+' | '-');
 
 WS: [ \r\n\t]+ -> skip;

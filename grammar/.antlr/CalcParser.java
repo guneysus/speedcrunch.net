@@ -16,25 +16,28 @@ public class CalcParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		PLUS=1, MINUS=2, TIMES=3, DIVISION=4, MODULUS=5, INT=6, WS=7;
+		NUMBER=1, PLUS=2, MINUS=3, TIMES=4, POW=5, DIV=6, MODULUS=7, DIGITS=8, 
+		DIGIT=9, SIGN=10, WS=11;
 	public static final int
-		RULE_startrule = 0, RULE_binaryexpression = 1, RULE_signedatom = 2;
+		RULE_startRule = 0, RULE_expression = 1, RULE_addition = 2, RULE_multiplication = 3, 
+		RULE_atom = 4;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"startrule", "binaryexpression", "signedatom"
+			"startRule", "expression", "addition", "multiplication", "atom"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'+'", "'-'", "'*'", "'/'", "'%'"
+			null, null, "'+'", "'-'", "'*'", "'^'", "'/'", "'%'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "PLUS", "MINUS", "TIMES", "DIVISION", "MODULUS", "INT", "WS"
+			null, "NUMBER", "PLUS", "MINUS", "TIMES", "POW", "DIV", "MODULUS", "DIGITS", 
+			"DIGIT", "SIGN", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -88,35 +91,24 @@ public class CalcParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
-	public static class StartruleContext extends ParserRuleContext {
-		public BinaryexpressionContext binaryexpression() {
-			return getRuleContext(BinaryexpressionContext.class,0);
+	public static class StartRuleContext extends ParserRuleContext {
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode EOF() { return getToken(CalcParser.EOF, 0); }
-		public StartruleContext(ParserRuleContext parent, int invokingState) {
+		public StartRuleContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_startrule; }
+		@Override public int getRuleIndex() { return RULE_startRule; }
 	}
 
-	public final StartruleContext startrule() throws RecognitionException {
-		StartruleContext _localctx = new StartruleContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_startrule);
+	public final StartRuleContext startRule() throws RecognitionException {
+		StartRuleContext _localctx = new StartRuleContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_startRule);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(6);
-			binaryexpression();
-			setState(8);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
-			case 1:
-				{
-				setState(7);
-				match(EOF);
-				}
-				break;
-			}
+			setState(10);
+			expression();
 			}
 		}
 		catch (RecognitionException re) {
@@ -130,142 +122,99 @@ public class CalcParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BinaryexpressionContext extends ParserRuleContext {
-		public BinaryexpressionContext(ParserRuleContext parent, int invokingState) {
+	public static class ExpressionContext extends ParserRuleContext {
+		public AdditionContext addition() {
+			return getRuleContext(AdditionContext.class,0);
+		}
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_binaryexpression; }
-	 
-		public BinaryexpressionContext() { }
-		public void copyFrom(BinaryexpressionContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class BinaryMultiplyIntContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public TerminalNode TIMES() { return getToken(CalcParser.TIMES, 0); }
-		public BinaryMultiplyIntContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
-	}
-	public static class BinaryAddIntContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public TerminalNode PLUS() { return getToken(CalcParser.PLUS, 0); }
-		public BinaryAddIntContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
-	}
-	public static class BinaryAddSimpleContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public BinaryAddSimpleContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
-	}
-	public static class BinaryModulusIntContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public TerminalNode MODULUS() { return getToken(CalcParser.MODULUS, 0); }
-		public BinaryModulusIntContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
-	}
-	public static class BinarySubstractIntContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public TerminalNode MINUS() { return getToken(CalcParser.MINUS, 0); }
-		public BinarySubstractIntContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
-	}
-	public static class BinaryDivisionIntContext extends BinaryexpressionContext {
-		public List<TerminalNode> INT() { return getTokens(CalcParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(CalcParser.INT, i);
-		}
-		public TerminalNode DIVISION() { return getToken(CalcParser.DIVISION, 0); }
-		public BinaryDivisionIntContext(BinaryexpressionContext ctx) { copyFrom(ctx); }
+		@Override public int getRuleIndex() { return RULE_expression; }
 	}
 
-	public final BinaryexpressionContext binaryexpression() throws RecognitionException {
-		BinaryexpressionContext _localctx = new BinaryexpressionContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_binaryexpression);
+	public final ExpressionContext expression() throws RecognitionException {
+		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_expression);
 		try {
-			setState(27);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(12);
+			addition();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AdditionContext extends ParserRuleContext {
+		public List<MultiplicationContext> multiplication() {
+			return getRuleContexts(MultiplicationContext.class);
+		}
+		public MultiplicationContext multiplication(int i) {
+			return getRuleContext(MultiplicationContext.class,i);
+		}
+		public List<TerminalNode> PLUS() { return getTokens(CalcParser.PLUS); }
+		public TerminalNode PLUS(int i) {
+			return getToken(CalcParser.PLUS, i);
+		}
+		public List<TerminalNode> MINUS() { return getTokens(CalcParser.MINUS); }
+		public TerminalNode MINUS(int i) {
+			return getToken(CalcParser.MINUS, i);
+		}
+		public List<TerminalNode> MODULUS() { return getTokens(CalcParser.MODULUS); }
+		public TerminalNode MODULUS(int i) {
+			return getToken(CalcParser.MODULUS, i);
+		}
+		public List<TerminalNode> POW() { return getTokens(CalcParser.POW); }
+		public TerminalNode POW(int i) {
+			return getToken(CalcParser.POW, i);
+		}
+		public AdditionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_addition; }
+	}
+
+	public final AdditionContext addition() throws RecognitionException {
+		AdditionContext _localctx = new AdditionContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_addition);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(14);
+			multiplication();
+			setState(19);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
-			case 1:
-				_localctx = new BinaryAddIntContext(_localctx);
-				enterOuterAlt(_localctx, 1);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << POW) | (1L << MODULUS))) != 0)) {
 				{
-				setState(10);
-				match(INT);
-				setState(11);
-				match(PLUS);
-				setState(12);
-				match(INT);
-				}
-				break;
-			case 2:
-				_localctx = new BinaryAddSimpleContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(13);
-				match(INT);
-				setState(14);
-				match(INT);
-				}
-				break;
-			case 3:
-				_localctx = new BinaryMultiplyIntContext(_localctx);
-				enterOuterAlt(_localctx, 3);
 				{
 				setState(15);
-				match(INT);
+				_la = _input.LA(1);
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << POW) | (1L << MODULUS))) != 0)) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
 				setState(16);
-				match(TIMES);
-				setState(17);
-				match(INT);
+				multiplication();
 				}
-				break;
-			case 4:
-				_localctx = new BinarySubstractIntContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(18);
-				match(INT);
-				setState(19);
-				match(MINUS);
-				setState(20);
-				match(INT);
 				}
-				break;
-			case 5:
-				_localctx = new BinaryDivisionIntContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
 				setState(21);
-				match(INT);
-				setState(22);
-				match(DIVISION);
-				setState(23);
-				match(INT);
-				}
-				break;
-			case 6:
-				_localctx = new BinaryModulusIntContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(24);
-				match(INT);
-				setState(25);
-				match(MODULUS);
-				setState(26);
-				match(INT);
-				}
-				break;
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -279,45 +228,89 @@ public class CalcParser extends Parser {
 		return _localctx;
 	}
 
-	public static class SignedatomContext extends ParserRuleContext {
-		public TerminalNode PLUS() { return getToken(CalcParser.PLUS, 0); }
-		public SignedatomContext signedatom() {
-			return getRuleContext(SignedatomContext.class,0);
+	public static class MultiplicationContext extends ParserRuleContext {
+		public List<AtomContext> atom() {
+			return getRuleContexts(AtomContext.class);
 		}
-		public TerminalNode MINUS() { return getToken(CalcParser.MINUS, 0); }
-		public SignedatomContext(ParserRuleContext parent, int invokingState) {
+		public AtomContext atom(int i) {
+			return getRuleContext(AtomContext.class,i);
+		}
+		public List<TerminalNode> TIMES() { return getTokens(CalcParser.TIMES); }
+		public TerminalNode TIMES(int i) {
+			return getToken(CalcParser.TIMES, i);
+		}
+		public List<TerminalNode> DIV() { return getTokens(CalcParser.DIV); }
+		public TerminalNode DIV(int i) {
+			return getToken(CalcParser.DIV, i);
+		}
+		public MultiplicationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_signedatom; }
+		@Override public int getRuleIndex() { return RULE_multiplication; }
 	}
 
-	public final SignedatomContext signedatom() throws RecognitionException {
-		SignedatomContext _localctx = new SignedatomContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_signedatom);
+	public final MultiplicationContext multiplication() throws RecognitionException {
+		MultiplicationContext _localctx = new MultiplicationContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_multiplication);
+		int _la;
 		try {
-			setState(33);
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(22);
+			atom();
+			setState(27);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case PLUS:
-				enterOuterAlt(_localctx, 1);
+			_la = _input.LA(1);
+			while (_la==TIMES || _la==DIV) {
 				{
+				{
+				setState(23);
+				_la = _input.LA(1);
+				if ( !(_la==TIMES || _la==DIV) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
+				setState(24);
+				atom();
+				}
+				}
 				setState(29);
-				match(PLUS);
-				setState(30);
-				signedatom();
-				}
-				break;
-			case MINUS:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(31);
-				match(MINUS);
-				setState(32);
-				signedatom();
-				}
-				break;
-			default:
-				throw new NoViableAltException(this);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AtomContext extends ParserRuleContext {
+		public TerminalNode NUMBER() { return getToken(CalcParser.NUMBER, 0); }
+		public AtomContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_atom; }
+	}
+
+	public final AtomContext atom() throws RecognitionException {
+		AtomContext _localctx = new AtomContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_atom);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(30);
+			match(NUMBER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -332,17 +325,16 @@ public class CalcParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\t&\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\3\2\5\2\13\n\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\36\n\3\3\4\3\4\3\4\3\4\5\4$\n\4\3\4\2"+
-		"\2\5\2\4\6\2\2\2)\2\b\3\2\2\2\4\35\3\2\2\2\6#\3\2\2\2\b\n\5\4\3\2\t\13"+
-		"\7\2\2\3\n\t\3\2\2\2\n\13\3\2\2\2\13\3\3\2\2\2\f\r\7\b\2\2\r\16\7\3\2"+
-		"\2\16\36\7\b\2\2\17\20\7\b\2\2\20\36\7\b\2\2\21\22\7\b\2\2\22\23\7\5\2"+
-		"\2\23\36\7\b\2\2\24\25\7\b\2\2\25\26\7\4\2\2\26\36\7\b\2\2\27\30\7\b\2"+
-		"\2\30\31\7\6\2\2\31\36\7\b\2\2\32\33\7\b\2\2\33\34\7\7\2\2\34\36\7\b\2"+
-		"\2\35\f\3\2\2\2\35\17\3\2\2\2\35\21\3\2\2\2\35\24\3\2\2\2\35\27\3\2\2"+
-		"\2\35\32\3\2\2\2\36\5\3\2\2\2\37 \7\3\2\2 $\5\6\4\2!\"\7\4\2\2\"$\5\6"+
-		"\4\2#\37\3\2\2\2#!\3\2\2\2$\7\3\2\2\2\5\n\35#";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r#\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\3\3\3\3\4\3\4\3\4\7\4\24\n\4\f\4"+
+		"\16\4\27\13\4\3\5\3\5\3\5\7\5\34\n\5\f\5\16\5\37\13\5\3\6\3\6\3\6\2\2"+
+		"\7\2\4\6\b\n\2\4\5\2\4\5\7\7\t\t\4\2\6\6\b\b\2\37\2\f\3\2\2\2\4\16\3\2"+
+		"\2\2\6\20\3\2\2\2\b\30\3\2\2\2\n \3\2\2\2\f\r\5\4\3\2\r\3\3\2\2\2\16\17"+
+		"\5\6\4\2\17\5\3\2\2\2\20\25\5\b\5\2\21\22\t\2\2\2\22\24\5\b\5\2\23\21"+
+		"\3\2\2\2\24\27\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\7\3\2\2\2\27\25"+
+		"\3\2\2\2\30\35\5\n\6\2\31\32\t\3\2\2\32\34\5\n\6\2\33\31\3\2\2\2\34\37"+
+		"\3\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36\t\3\2\2\2\37\35\3\2\2\2 !\7\3"+
+		"\2\2!\13\3\2\2\2\4\25\35";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

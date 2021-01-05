@@ -1,11 +1,31 @@
-﻿using System;
+﻿using Antlr4.Runtime.Tree;
+using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace NCrunch.Net.Tests
 {
     public class SimpleTests
     {
+        private readonly ITestOutputHelper logger;
+        private readonly Action<object> writer;
+        private readonly CalcVisitor visitor;
+
+        public SimpleTests(ITestOutputHelper testoutputHelper)
+        {
+            this.logger = testoutputHelper;
+
+            this.writer = s =>
+            {
+
+                Trace.WriteLine(s);
+                logger.WriteLine(s.ToString());
+            };
+
+            this.visitor = new CalcVisitor(writer);
+        }
 
         [Theory]
         [InlineData("0+0", 0)]
@@ -18,10 +38,22 @@ namespace NCrunch.Net.Tests
         [InlineData("100+10", 110)]
         public void Positive_Integer_Add(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
+        }
+
+        private object getResult(string input)
+        {
+            Delegate lambda = getLambda(input);
+            var result = lambda.DynamicInvoke();
+            return result;
+        }
+
+        private Delegate getLambda(string input)
+        {
+            var (_, _, _, tree) = NCrunch.CalculatorParser.Parse(input);
+            var lambda = visitor.Visit(tree);
+            return Expression.Lambda(lambda).Compile();
         }
 
         [Theory]
@@ -30,9 +62,7 @@ namespace NCrunch.Net.Tests
         [InlineData("1+-2", -1)]
         public void Negative_Integer_Add(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -45,9 +75,7 @@ namespace NCrunch.Net.Tests
         [InlineData("5*10", 50)]
         public void Positive_Integer_Multiply(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -58,9 +86,7 @@ namespace NCrunch.Net.Tests
         [InlineData("1*-5", -5)]
         public void Negative_Integer_Multiply(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -75,9 +101,7 @@ namespace NCrunch.Net.Tests
         [InlineData("5-1000", -995)]
         public void Positive_Integer_Substraction(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -89,10 +113,7 @@ namespace NCrunch.Net.Tests
         [InlineData("-5--1", -4)]
         public void Negative_Integer_Substraction(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
-
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -108,9 +129,7 @@ namespace NCrunch.Net.Tests
         [InlineData("10/6", 1)]
         public void Positive_Integer_Division(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -118,9 +137,8 @@ namespace NCrunch.Net.Tests
         [InlineData("5/0")]
         public void Positive_Divide_By_Zero(string input)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var f = Expression.Lambda<Func<int>>(exp).Compile();
-            Assert.Throws<DivideByZeroException>(() => _ = f());
+            Delegate lambda = getLambda(input);
+            Assert.Throws<DivideByZeroException>(() => _ = lambda.DynamicInvoke());
         }
 
         [Theory]
@@ -128,9 +146,8 @@ namespace NCrunch.Net.Tests
         [InlineData("-1%0")]
         public void Modulo_By_Zero(string input)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var f = Expression.Lambda<Func<int>>(exp).Compile();
-            Assert.Throws<DivideByZeroException>(() => _ = f());
+            Delegate lambda = getLambda(input);
+            Assert.Throws<DivideByZeroException>(() => _ = lambda.DynamicInvoke());
         }
 
         [Theory]
@@ -145,9 +162,7 @@ namespace NCrunch.Net.Tests
         [InlineData("10%10", 0)]
         public void Positive_Integer_Modulo(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
@@ -156,11 +171,46 @@ namespace NCrunch.Net.Tests
         [InlineData("-10%-3", -1)]
         public void Negative_Integer_Modulo(string input, object expected)
         {
-            var (_, _, exp) = NCrunch.CalculatorParser.Parse(input);
-            var lambda = Expression.Lambda(exp).Compile();
-            var result = lambda.DynamicInvoke();
+            object result = getResult(input);
             Assert.Equal(expected, result);
         }
 
+    }
+
+    public class TroubleshootTests
+    {
+        private readonly ITestOutputHelper logger;
+        private readonly Action<object> writer;
+        private readonly CalcVisitor visitor;
+
+        public TroubleshootTests(ITestOutputHelper testoutputHelper)
+        {
+            this.logger = testoutputHelper;
+
+            this.writer = s =>
+            {
+
+                Trace.WriteLine(s);
+                logger.WriteLine(s.ToString());
+            };
+
+            this.visitor = new CalcVisitor(writer);
+
+        }
+
+        [Fact]
+        public void Visit()
+        {
+
+            var input = "50/2";
+
+            var (_, _, exp, tree) = NCrunch.CalculatorParser.Parse(input, writer);
+
+            var result = Expression.Lambda(visitor.Visit(tree)).Compile().DynamicInvoke();
+
+            logger.WriteLine("--------------------------");
+            logger.WriteLine(result.ToString());
+
+        }
     }
 }

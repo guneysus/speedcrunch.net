@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using Antlr4.Runtime.Tree.Pattern;
 using System;
 using System.Linq.Expressions;
@@ -17,14 +18,14 @@ namespace NCrunch
             parser.BuildParseTree = true;
             parser.TrimParseTree = true;
 
-            var listener = new CalculatorListener();
+            var listener = new CalculatorListener(default, parser);
             parser.AddParseListener(listener);
 
             var errorListener = new CalcErrorListener();
             parser.AddErrorListener(errorListener);
             try
             {
-                ParseTreePattern tree = parser.CompileParseTreePattern(input, CalcParser.RULE_startrule);
+                ParseTreePattern tree = parser.CompileParseTreePattern(input, CalcParser.RULE_startRule);
                 tree.PatternTree.ToStringTree();
                 return (tree, tree.PatternTree.ToStringTree());
             }
@@ -40,7 +41,7 @@ namespace NCrunch
             throw new NotImplementedException();
         }
 
-        public static (CalcParser parser, CalcParser.StartruleContext ctx, Expression) Parse(string input)
+        public static (CalcParser parser, CalcParser.StartRuleContext ctx, Expression exp, IParseTree tree) Parse(string input, Action<object> logger = default)
         {
             var stream = new AntlrInputStream(input);
             var lexer = new CalcLexer(stream);
@@ -49,17 +50,17 @@ namespace NCrunch
             parser.BuildParseTree = true;
             parser.TrimParseTree = true;
 
-            CalcParser.StartruleContext ctx = parser.startrule();
+            CalcParser.StartRuleContext ctx = parser.startRule();
 
             var errorListener = new CalcErrorListener();
             parser.AddErrorListener(errorListener);
 
-            var listener = new CalculatorListener();
+            var listener = new CalculatorListener(logger, parser);
             parser.AddParseListener(listener);
 
             Antlr4.Runtime.Tree.ParseTreeWalker.Default.Walk(listener, ctx);
 
-            return (parser, ctx, listener.GetExpression());
+            return (parser, ctx, listener.GetExpression(), parser.CompileParseTreePattern(input, CalcParser.RULE_startRule).PatternTree);
         }
     }
 }
