@@ -35,6 +35,12 @@ public static class Calc
 
         //System.Array.Clear(stack, 0, stack.Length);
 
+        static void push(object s)
+        {
+            stackIndex++;
+            stack[stackIndex] = s;
+        }
+
         static object pop(object[] stack)
         {
             object result = stack[stackIndex];
@@ -53,8 +59,8 @@ public static class Calc
                 {
                     case int s:
                         $"Int {_.ARROW_RIGHT} {s}".Dump();
-                        stackIndex++;
-                        stack[stackIndex] = s;
+
+                        push(s);
                         break;
 
                     case Op op:
@@ -67,9 +73,8 @@ public static class Calc
 
                                     result = Lambda(Add(Constant(left), Constant(right))).Compile().DynamicInvoke();
 
-                                    stackIndex++;
+                                    push(result);
 
-                                    stack[stackIndex] = result;
                                     break;
                                 }
 
@@ -79,9 +84,8 @@ public static class Calc
                                     object left = pop(stack);
 
                                     result = Lambda(Divide(Constant(left), Constant(right))).Compile().DynamicInvoke();
+                                    push(result);
 
-                                    stackIndex++;
-                                    stack[stackIndex] = result;
                                     break;
                                 }
 
@@ -92,8 +96,8 @@ public static class Calc
 
                                     result = Lambda(Multiply(Constant(left), Constant(right))).Compile().DynamicInvoke();
 
-                                    stackIndex++;
-                                    stack[stackIndex] = result;
+                                    push(result);
+
                                     break;
                                 }
 
@@ -118,11 +122,12 @@ public static class Calc
 
         if (stackIndex == 0 && stack[0] != default)
         {
-            object result = pop(stack);
-            return result;
+            object returnValue = pop(stack);
+            return returnValue;
         }
 
         throw new InsufficientExecutionStackException();
+
 
     }
 }
