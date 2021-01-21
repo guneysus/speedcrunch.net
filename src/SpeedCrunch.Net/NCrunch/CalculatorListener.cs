@@ -94,6 +94,7 @@ namespace NCrunch
             if(aggregate != null && nextResult != null)
             {
                 aggregate = MakeBinary(ExpressionType, aggregate, nextResult);
+                //ExpressionType = ExpressionType.Default;
             }
             Expression expression = base.AggregateResult(aggregate, nextResult);
             writer($"{System.Reflection.MethodBase.GetCurrentMethod().Name} | {(aggregate is null ? "aggregate is null" : $"{aggregate}")}, {(nextResult is null ? "nextResult is null" : $"{nextResult}")}");

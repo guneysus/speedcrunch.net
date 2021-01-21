@@ -198,19 +198,25 @@ namespace NCrunch.Net.Tests
 
         }
 
-        [Fact]
-        public void Visit()
+        [Theory]
+        [InlineData("3*50+20", 170)]
+        [InlineData("1", 1)]
+        [InlineData("10", 10)]
+        [InlineData("0*1", 0)]
+        [InlineData("0*1+10", 10)]
+        [InlineData("0*1+10/2", 5)]
+        [InlineData("0*1+10/2+3", 8)]
+        public void Visit(string input, object expected)
         {
-
-            var input = "50/2";
-
             var (_, _, exp, tree) = NCrunch.CalculatorParser.Parse(input, writer);
 
             var result = Expression.Lambda(visitor.Visit(tree)).Compile().DynamicInvoke();
 
+
             logger.WriteLine("--------------------------");
             logger.WriteLine(result.ToString());
 
+            Assert.Equal(expected, result);
         }
     }
 }

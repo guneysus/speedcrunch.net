@@ -154,6 +154,7 @@ public class CalcParser extends Parser {
 	}
 
 	public static class AdditionContext extends ParserRuleContext {
+		public MultiplicationContext left;
 		public List<MultiplicationContext> multiplication() {
 			return getRuleContexts(MultiplicationContext.class);
 		}
@@ -172,10 +173,6 @@ public class CalcParser extends Parser {
 		public TerminalNode MODULUS(int i) {
 			return getToken(CalcParser.MODULUS, i);
 		}
-		public List<TerminalNode> POW() { return getTokens(CalcParser.POW); }
-		public TerminalNode POW(int i) {
-			return getToken(CalcParser.POW, i);
-		}
 		public AdditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -190,16 +187,16 @@ public class CalcParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(14);
-			multiplication();
+			((AdditionContext)_localctx).left = multiplication();
 			setState(19);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << POW) | (1L << MODULUS))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << MODULUS))) != 0)) {
 				{
 				{
 				setState(15);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << POW) | (1L << MODULUS))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PLUS) | (1L << MINUS) | (1L << MODULUS))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				else {
@@ -328,13 +325,13 @@ public class CalcParser extends Parser {
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r#\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\3\3\3\3\4\3\4\3\4\7\4\24\n\4\f\4"+
 		"\16\4\27\13\4\3\5\3\5\3\5\7\5\34\n\5\f\5\16\5\37\13\5\3\6\3\6\3\6\2\2"+
-		"\7\2\4\6\b\n\2\4\5\2\4\5\7\7\t\t\4\2\6\6\b\b\2\37\2\f\3\2\2\2\4\16\3\2"+
-		"\2\2\6\20\3\2\2\2\b\30\3\2\2\2\n \3\2\2\2\f\r\5\4\3\2\r\3\3\2\2\2\16\17"+
-		"\5\6\4\2\17\5\3\2\2\2\20\25\5\b\5\2\21\22\t\2\2\2\22\24\5\b\5\2\23\21"+
-		"\3\2\2\2\24\27\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\7\3\2\2\2\27\25"+
-		"\3\2\2\2\30\35\5\n\6\2\31\32\t\3\2\2\32\34\5\n\6\2\33\31\3\2\2\2\34\37"+
-		"\3\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36\t\3\2\2\2\37\35\3\2\2\2 !\7\3"+
-		"\2\2!\13\3\2\2\2\4\25\35";
+		"\7\2\4\6\b\n\2\4\4\2\4\5\t\t\4\2\6\6\b\b\2\37\2\f\3\2\2\2\4\16\3\2\2\2"+
+		"\6\20\3\2\2\2\b\30\3\2\2\2\n \3\2\2\2\f\r\5\4\3\2\r\3\3\2\2\2\16\17\5"+
+		"\6\4\2\17\5\3\2\2\2\20\25\5\b\5\2\21\22\t\2\2\2\22\24\5\b\5\2\23\21\3"+
+		"\2\2\2\24\27\3\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\7\3\2\2\2\27\25\3"+
+		"\2\2\2\30\35\5\n\6\2\31\32\t\3\2\2\32\34\5\n\6\2\33\31\3\2\2\2\34\37\3"+
+		"\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36\t\3\2\2\2\37\35\3\2\2\2 !\7\3\2"+
+		"\2!\13\3\2\2\2\4\25\35";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

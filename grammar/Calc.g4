@@ -3,7 +3,7 @@ grammar Calc;
 startRule: expression;
 
 expression     : addition;
-addition       : multiplication ((PLUS|MINUS|MODULUS|POW) multiplication)* ;
+addition       : left=multiplication ((PLUS|MINUS|MODULUS) multiplication)* ;
 multiplication : atom ((TIMES|DIV) atom)* ;
 atom           : NUMBER ;
 
